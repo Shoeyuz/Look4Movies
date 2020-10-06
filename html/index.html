@@ -162,14 +162,52 @@
     <div class="modal-background"></div>
     <div class="modal-card">
       <header class="modal-card-head">
-        <p class="modal-card-title">Modal title</p>
+        <p class="modal-card-title">Sign Up</p>
         <button class="delete" id ="closeSignUp" aria-label="close"></button>
       </header>
       <section class="modal-card-body">
-        <!-- Content ... -->
+
+
+        <form id = "registrationForm">
+
+
+        <!-- EMAIL -->
+        <div class="field">
+          <p class="control has-icons-left has-icons-right">
+            <input class="input" type="email" placeholder="Email">
+            
+          </p>
+        </div>
+          <!-- USERNAME -->
+
+        <div class="field">
+          <p class="control has-icons-left">
+            <input class="input" type="text" placeholder="Username">
+          
+          </p>
+        </div>
+
+          <!-- PASSWORD -->
+
+        <div class="field">
+          <p class="control has-icons-left">
+            <input class="input" type="password" placeholder="Password">
+          
+          </p>
+        </div>
+
+          <!-- PASS CONFIRM -->
+
+        <div class="field">
+          <p class="control has-icons-left">
+            <input class="input" type="password" placeholder="Password Confirmation">
+            
+          </p>
+        </div>
+      </form>
       </section>
       <footer class="modal-card-foot">
-        <button class="button is-success">Save changes</button>
+        <button class="button is-success">Register </button>
         <button class="button" id ="cancelSignUp">Cancel</button>
       </footer>
     </div>

@@ -53,5 +53,12 @@ function openSignUp(){
 function closeSignUp(){
   document.getElementById("signUpModal").classList.remove("is-active");
 
+
+  //clears the input in the form
+  document.getElementById("registrationForm").reset();
+ 
+
+
+
 }
 

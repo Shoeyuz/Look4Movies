@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //close the modal pop ups so they dont show
     closeSignUp();
+    closeLogin();
+
 
 
     // Get all "navbar-burger" elements

@@ -1,5 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+
+    //close the modal pop ups so they dont show
+    closeSignUp();
+
+
     // Get all "navbar-burger" elements
     const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
   
@@ -23,3 +28,30 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   
   });
+
+
+// Responsible for modal actions
+
+//adding action listeners to modal 
+document.getElementById("signUp").addEventListener('click',openSignUp);
+
+
+//adding action listeners to modal sections
+document.getElementById("closeSignUp").addEventListener('click',closeSignUp);
+document.getElementById("cancelSignUp").addEventListener('click',closeSignUp);
+
+
+
+
+//open sign up modal
+function openSignUp(){
+  
+  document.getElementById("signUpModal").classList.add("is-active");
+}
+
+//close sign up modal
+function closeSignUp(){
+  document.getElementById("signUpModal").classList.remove("is-active");
+
+}
+

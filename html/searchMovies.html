@@ -6,7 +6,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Eras</title>
+        <title>searchMovies</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
     </head>
 
@@ -46,7 +46,7 @@
                 <a class="navbar-item" href="genres.html">
                     Genres
                 </a>
-                <a class="navbar-item" href="eras.html">
+                <a class="navbar-item" href="searchMovies.html">
                     Era
                 </a>
             </div>
@@ -74,16 +74,82 @@
                Stoneage to now, any movie, any time
             </h1>
             <h2 class="subtitle">
-              Your era, your choice
+              Your movie, your choice
             </h2>
           </div>
         </div>
       </section>
 
+      <section>
+      
+        <div class = "content is-large has-text-centered pt-6 pb-6">
+          <h1>Find a movie</h1>
+  
+        </div>
+      
+        <form id = "movieFinder">
+          <input class="input is-medium is-dark" 
+          type="text" placeholder="Earliest year of release">
+        
+
+          <input class="input  is-medium is-dark" 
+          type="text" placeholder="Latest Year of Release">
+
+       
+          <div class="select">
+            <select>
+              <option>Action</option>
+              <option>Comedy</option>
+              <option>Romance</option>
+              <option>Thriller</option>
+              <option>Drama</option>
+              <option>Horror</option>
+            </select>
+          </div>
+          <input class="input  is-medium is-dark" 
+          type="text" placeholder="Name of movie (optional)">
+          <input class="input  is-medium is-dark" 
+          type="text" placeholder="Max Length of Movie (optional)">
 
 
-    <script type = "text/javascript" src = "/Look4Movies/js/eras.js"></script>
+          <input class="button" id = "movieFinderSubmit" type="submit" value="Search">
+        </form>
+    
+      </section>
+
+
+      <section>
+      
+        <div class = "content is-large has-text-centered pt-6 pb-6">
+          <h1>Find an actor/director</h1>
+  
+        </div>
+      
+        <form id = "actorFinder">
+          <input class="input  is-medium is-dark" 
+          type="text" placeholder=" Actor Name">
+
+          <input class="input is-medium is-dark" 
+          type="text" placeholder="Year of birth">
+        
+
+          <input class="input  is-medium is-dark" 
+          type="text" placeholder="Year of death (if applicable)">
+
+       
+
+
+          <input class="button" type="submit" id ="actorFinderSubmit" value="Search">
+        </form>
+    
+      </section>
+
+      
+      <script type = "text/javascript" src = "/Look4Movies/js/searchMovies.js"></script>
   </body>
+
+
+  
 
 
 

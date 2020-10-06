@@ -34,12 +34,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
 //adding action listeners to modal 
 document.getElementById("signUp").addEventListener('click',openSignUp);
+document.getElementById("logIn").addEventListener('click',openLogIn);
 
 
 //adding action listeners to modal sections
 document.getElementById("closeSignUp").addEventListener('click',closeSignUp);
 document.getElementById("cancelSignUp").addEventListener('click',closeSignUp);
 
+document.getElementById("cancelLogIn").addEventListener('click',closeLogin);
+document.getElementById("closeLogIn").addEventListener('click',closeLogin);
 
 
 
@@ -53,12 +56,25 @@ function openSignUp(){
 function closeSignUp(){
   document.getElementById("signUpModal").classList.remove("is-active");
 
-
   //clears the input in the form
   document.getElementById("registrationForm").reset();
  
-
-
-
 }
+
+
+//open log in modal
+function openLogIn(){
+  document.getElementById("logInModal").classList.add("is-active");
+}
+
+//close sign up modal
+function closeLogin(){
+  document.getElementById("logInModal").classList.remove("is-active");
+
+  //clears the input in the form
+  document.getElementById("loginForm").reset();
+ 
+}
+
+
 

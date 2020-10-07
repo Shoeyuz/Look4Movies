@@ -1,112 +1,85 @@
-
-
 <!DOCTYPE html>
 
-<html lang ="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Genres</title>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
-    </head>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Genres</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+</head>
 
 
 
 
-  <body>
-    
-    
-    <!--THIS IS THE SECTION FOR NAVIGATION-->
-    <nav class="navbar is-black" role="navigation" aria-label="main navigation">
-      <div class="navbar-brand">
-        <a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
+<body>
+
+
+  <!--THIS IS THE SECTION FOR NAVIGATION-->
+  <nav class="navbar is-black" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+
+
+    <div class="navbar-menu" id="navMenu">
+      <!-- navbar-start, navbar-end... -->
+      <div class="navbar-start">
+        <!-- navbar items -->
+        <a class="navbar-item " href="index.html">
+          Dashboard
+        </a>
+
+        <a class="navbar-item" href="movies.html">
+          Movies
+        </a>
+
+        <a class="navbar-item" href="actors.html">
+          Actors
+        </a>
+
+        <a class="navbar-item" href="genres.html">
+          Genres
+        </a>
+        <a class="navbar-item" href="searchMovies.html">
+          Search for a Movie
+        </a>
+        <a class="navbar-item" href="selfProfile.html">
+          Profile
         </a>
       </div>
 
-        
-        <div class="navbar-menu" id="navMenu">
-            <!-- navbar-start, navbar-end... -->
-            <div class="navbar-start">
-                <!-- navbar items -->
-                <a class="navbar-item " href= "index.html">
-                  Dashboard
-                </a>
-          
-                <a class="navbar-item" href="movies.html">
-                  Movies
-                </a>
-          
-                <a class="navbar-item" href="actors.html">
-                  Actors
-                </a>
-          
-                <a class="navbar-item" href="genres.html">
-                    Genres
-                </a>
-                <a class="navbar-item" href="searchMovies.html">
-                  Search for a Movie
-              </a>
-              <a class="navbar-item" href="selfProfile.html">
-                Profile
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <div class="buttons">
+            <a class="button is-primary">
+              <strong>Sign up</strong>
             </a>
-            </div>
-          
-            <div class="navbar-end">
-              <div class="navbar-item">
-                <div class="buttons">
-                  <a class="button is-primary">
-                    <strong>Sign up</strong>
-                  </a>
-                  <a class="button is-light">
-                    Log in
-                  </a>
-                </div>
-              </div>
-            </div>
-
-    </nav>
-      <!--END NAVIGATION-->
-
-      <section class="hero is-medium is-warning is-bold">
-        <div class="hero-body has-text-centered">
-          <h1 class="title">
-            What genre will you delve into today?
-         </h1>
-         <nav class="level">
-          <div class="level-item has-text-centered">
-            <div>
-              <p class="heading">Action</p>
-              <p class="title">3,456</p>
-            </div>
+            <a class="button is-light">
+              Log in
+            </a>
           </div>
-          <div class="level-item has-text-centered">
-            <div>
-              <p class="heading">Comedy</p>
-              <p class="title">12, 323</p>
-            </div>
-          </div>
-          <div class="level-item has-text-centered">
-            <div>
-              <p class="heading">Romance</p>
-              <p class="title">5, 379</p>
-            </div>
-          </div>
-          <div class="level-item has-text-centered">
-            <div>
-              <p class="heading">Drama</p>
-              <p class="title">3, 899</p>
-            </div>
-          </div>
-        </nav>
         </div>
-      </section>
-      
+      </div>
 
-    <script type = "text/javascript" src = "/Look4Movies/js/genres.js"></script>
-  </body>
+  </nav>
+  <!--END NAVIGATION-->
+
+  <section class="hero is-medium is-warning is-bold is-fullheight">
+    <div class="hero-body">
+
+     A bunch of links to various genres, I haven;t decided what to do for this part yet
+      Thinking of either a netflix sort of approach or a bunch of tiles
+    </div>
+  </section>
+
+
+  <script type="text/javascript" src="/Look4Movies/js/genres.js"></script>
+</body>
 
 
 

@@ -1,81 +1,131 @@
-
-
 <!DOCTYPE html>
 
-<html lang ="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>`List of fit movies`</title>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
-    </head>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>`List of fit movies`</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+</head>
 
 
 
 
-  <body>
-    
-    
-    <!--THIS IS THE SECTION FOR NAVIGATION-->
-    <nav class="navbar is-black" role="navigation" aria-label="main navigation">
-      <div class="navbar-brand">
-        <a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
+<body>
+
+
+  <!--THIS IS THE SECTION FOR NAVIGATION-->
+  <nav class="navbar is-black" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+
+
+    <div class="navbar-menu" id="navMenu">
+      <!-- navbar-start, navbar-end... -->
+      <div class="navbar-start">
+        <!-- navbar items -->
+        <a class="navbar-item " href="index.html">
+          Dashboard
+        </a>
+
+        <a class="navbar-item" href="movies.html">
+          Movies
+        </a>
+
+        <a class="navbar-item" href="actors.html">
+          Actors
+        </a>
+
+        <a class="navbar-item" href="genres.html">
+          Genres
+        </a>
+        <a class="navbar-item" href="searchMovies.html">
+          Search for a Movie
+        </a>
+        <a class="navbar-item" href="selfProfile.html">
+          Profile
         </a>
       </div>
 
-        
-        <div class="navbar-menu" id="navMenu">
-            <!-- navbar-start, navbar-end... -->
-            <div class="navbar-start">
-                <!-- navbar items -->
-                <a class="navbar-item " href= "index.html">
-                  Dashboard
-                </a>
-          
-                <a class="navbar-item" href="movies.html">
-                  Movies
-                </a>
-          
-                <a class="navbar-item" href="actors.html">
-                  Actors
-                </a>
-          
-                <a class="navbar-item" href="genres.html">
-                    Genres
-                </a>
-                <a class="navbar-item" href="searchMovies.html">
-                  Search for a Movie
-              </a>
-              <a class="navbar-item" href="selfProfile.html">
-                Profile
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <div class="buttons">
+            <a class="button is-primary">
+              <strong>Sign up</strong>
             </a>
-            </div>
-          
-            <div class="navbar-end">
-              <div class="navbar-item">
-                <div class="buttons">
-                  <a class="button is-primary">
-                    <strong>Sign up</strong>
-                  </a>
-                  <a class="button is-light">
-                    Log in
-                  </a>
-                </div>
-              </div>
-            </div>
+            <a class="button is-light">
+              Log in
+            </a>
+          </div>
+        </div>
+      </div>
 
-    </nav>
-      <!--END NAVIGATION-->
+  </nav>
+  <!--END NAVIGATION-->
 
-   
+  <table class="table is-striped is-hoverable is-fullwidth">
+    <thead>
+      <tr>
+        <th><abbr title="Title">Number (by rating)</abbr></th>
+
+        <th><abbr title="Title">Title</abbr></th>
+        <th><abbr title="Length">Run Time</abbr></th>
+
+        <th><abbr title="Genre">Genre</abbr></th>
+        <th><abbr title="Played">Rating</abbr></th>
+        <th><abbr title="Length">Plot</abbr></th>
+
+
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <th>1</th>
+        <td> <a href="movieSingle.html">The Fellowship of the Ring</a> </td>
+        <td> 3:14 hours (extended edition) </td>
+        <td> <a href="moviesPossible.html">Adventure</a></td>
+        <td> 10/10 </td>
+        <td> Return some jewelery</td>
+
+
+      <tr>
+
+      <tr>
+        <th>2</th>
+        <td> <a href="movieSingle.html">Winter Man</a> </td>
+        <td> 1 hour </td>
+        <td> <a href="moviesPossible.html">Drama</a></td>
+        <td> 8/10 </td>
+        <td> Man in the winter, very cold </td>
+
+      <tr>
+
+
+      <tr>
+        <th>3</th>
+        <td> <a href="movieSingle.html">Titanic</a> </td>
+        <td> 2:04 hours </td>
+        <td> <a href="moviesPossible.html">Horror</a></td>
+        <td> 5/10 </td>
+        <td> Extreme ice bucket challenge </td>
+
+
+      <tr>
+
+    </tbody>
+  </table>
 
 
 
-    <script type = "text/javascript" src = "/Look4Movies/js/moviesPossible.js"></script>
-  </body>
+  <script type="text/javascript" src="/Look4Movies/js/moviesPossible.js"></script>
+</body>
 
 
 

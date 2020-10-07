@@ -23,3 +23,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   
   });
+
+
+
+  document.getElementById("genreSearch").addEventListener('click',genreSearch);
+
+  function genreSearch(){
+    window.open("moviesPossible.html");
+  }

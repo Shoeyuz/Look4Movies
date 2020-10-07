@@ -23,3 +23,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   
   });
+
+
+  document.getElementById("actorSearch").addEventListener('click',actorSearch);
+
+  function actorSearch(){
+    window.open("moviesPossible.html");
+  }

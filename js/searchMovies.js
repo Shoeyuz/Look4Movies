@@ -23,3 +23,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   
   });
+
+
+
+
+  document.getElementById("movieFinderSubmit").addEventListener('click',searchMovie);
+
+  function searchMovie(){
+    window.open("moviesPossible.html");
+  }
+
+
+
+  document.getElementById("actorFinderSubmit").addEventListener('click',searchActor);
+
+  function searchActor(){
+    window.open("moviesPossible.html");
+  }

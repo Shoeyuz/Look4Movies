@@ -3,7 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   //close the modal pop ups so they dont show
   closeSignUp();
-  closeLogin();
+  openLogIn();
+  //login to view situation
 
 
 

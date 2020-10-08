@@ -74,6 +74,8 @@ Additional Functionality:
     4. The search buttons which use forms for submission purposes and open a new window with the resulting search
 
 
+    5. This is a mobile first built site. Pages are responsive to any sizing and will work well with any type of device used to access them. 
+
 
 Extra Info: (plans for future if you will)
 

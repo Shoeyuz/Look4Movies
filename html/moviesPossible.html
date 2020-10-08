@@ -56,10 +56,10 @@
       <div class="navbar-end">
         <div class="navbar-item">
           <div class="buttons">
-            <a class="button is-primary">
+            <a class="button is-primary" id="signUp">
               <strong>Sign up</strong>
             </a>
-            <a class="button is-light">
+            <a class="button is-light" id="logIn">
               Log in
             </a>
           </div>
@@ -121,7 +121,101 @@
 
     </tbody>
   </table>
+ <!--MODAL FOR SIGN UP-->
+ <div class="modal" id="signUpModal">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Sign Up</p>
+      <button class="delete" id="closeSignUp" aria-label="close"></button>
+    </header>
+    <section class="modal-card-body">
 
+
+      <form id="registrationForm">
+
+
+        <!-- EMAIL -->
+        <div class="field">
+          <p class="control has-icons-left has-icons-right">
+            <input class="input" type="email" placeholder="Email">
+
+          </p>
+        </div>
+        <!-- USERNAME -->
+
+        <div class="field">
+          <p class="control has-icons-left">
+            <input class="input" type="text" placeholder="Username">
+
+          </p>
+        </div>
+
+        <!-- PASSWORD -->
+
+        <div class="field">
+          <p class="control has-icons-left">
+            <input class="input" type="password" placeholder="Password">
+
+          </p>
+        </div>
+
+        <!-- PASS CONFIRM -->
+
+        <div class="field">
+          <p class="control has-icons-left">
+            <input class="input" type="password" placeholder="Password Confirmation">
+
+          </p>
+        </div>
+      </form>
+    </section>
+    <footer class="modal-card-foot">
+      <button class="button is-success">Register </button>
+      <button class="button" id="cancelSignUp">Cancel</button>
+    </footer>
+  </div>
+</div>
+
+<!--MODAL FOR SIGN UP-->
+<div class="modal" id="logInModal">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Login </p>
+      <button class="delete" id="closeLogIn" aria-label="close"></button>
+    </header>
+    <section class="modal-card-body">
+
+
+      <form id="loginForm">
+
+        <!-- USERNAME -->
+
+        <div class="field">
+          <p class="control has-icons-left">
+            <input class="input" type="text" placeholder="Username">
+
+          </p>
+        </div>
+
+        <!-- PASSWORD -->
+
+        <div class="field">
+          <p class="control has-icons-left">
+            <input class="input" type="password" placeholder="Password">
+
+          </p>
+        </div>
+
+      </form>
+    </section>
+    <footer class="modal-card-foot">
+      <button class="button is-success">Login </button>
+      <button class="button" id="cancelLogIn">Cancel</button>
+    </footer>
+  </div>
+</div>
 
 
   <script type="text/javascript" src="/Look4Movies/js/moviesPossible.js"></script>

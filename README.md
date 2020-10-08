@@ -1,9 +1,4 @@
 # Look4Movies
-1. A list of each included HTML/CSS/JS file and a short description of what each file contains.
-2. What project you are working on.
-3. The name of both partners, if applicable.
-4. Install instructions, if applicable.
-5. A brief description of any additional functionality the TA should consider (e.g., dynamic behaviour you added with Javascript)
 
 
 Name: Michael Shlega

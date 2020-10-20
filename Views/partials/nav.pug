@@ -1,0 +1,30 @@
+// THIS IS THE SECTION FOR NAVIGATION
+nav.navbar.is-black(role='navigation' aria-label='main navigation')
+  .navbar-brand
+    a.navbar-burger(role='button' data-target='navMenu' aria-label='menu' aria-expanded='false')
+      span(aria-hidden='true')
+      span(aria-hidden='true')
+      span(aria-hidden='true')
+  #navMenu.navbar-menu
+    // navbar-start, navbar-end...
+    .navbar-start
+      // navbar items
+      a.navbar-item.is-active(href='/')
+        | Dashboard
+      a.navbar-item(href='/movies')
+        | Movies
+      a.navbar-item(href='/actors')
+        | Actors
+      a.navbar-item(href='/genres')
+        | Genres
+      a.navbar-item(href='/searchMovie')
+        | Search for a Movie
+      a.navbar-item(href='/selfProfile')
+        | Profile
+    .navbar-end
+      .navbar-item
+        .buttons
+          a#signUp.button.is-primary
+            strong Sign up
+          a#logIn.button.is-light
+            | Log in

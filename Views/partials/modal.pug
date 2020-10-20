@@ -1,0 +1,45 @@
+// MODAL FOR SIGN UP
+#signUpModal.modal
+  .modal-background
+  .modal-card
+    header.modal-card-head
+      p.modal-card-title Sign Up
+      button#closeSignUp.delete(aria-label='close')
+    section.modal-card-body
+      form#registrationForm
+        // USERNAME
+        .field
+          p.control.has-icons-left
+            input.input(type='text' placeholder='Username')
+        // PASSWORD
+        .field
+          p.control.has-icons-left
+            input.input(type='password' placeholder='Password')
+        // PASS CONFIRM
+        .field
+          p.control.has-icons-left
+            input.input(type='password' placeholder='Password Confirmation')
+    footer.modal-card-foot
+      button.button.is-success Register 
+      button#cancelSignUp.button Cancel
+// MODAL FOR SIGN UP
+#logInModal.modal
+  .modal-background
+  .modal-card
+    header.modal-card-head
+      p.modal-card-title Login 
+      button#closeLogIn.delete(aria-label='close')
+    section.modal-card-body
+      form#loginForm
+        // USERNAME
+        .field
+          p.control.has-icons-left
+            input.input(type='text' placeholder='Username')
+        // PASSWORD
+        .field
+          p.control.has-icons-left
+            input.input(type='password' placeholder='Password')
+    footer.modal-card-foot
+      button.button.is-success Login 
+      button#cancelLogIn.button Cancel
+

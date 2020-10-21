@@ -1,0 +1,43 @@
+// MODAL FOR RATE
+#rate.modal
+  .modal-background
+  .modal-card
+    header.modal-card-head
+      p.modal-card-title Rate this movie
+      button#closeRate.delete(aria-label='close')
+    section.modal-card-body
+      form#rateForm
+        // RATING
+        .field
+          p.control.has-icons-left
+            input.input(type='text' placeholder='0-10')
+    footer.modal-card-foot
+      button.button.is-success Rate 
+      button#cancelRate.button Cancel
+
+
+// MODAL FOR REVIEW
+#review.modal
+  .modal-background
+  .modal-card
+    header.modal-card-head
+      p.modal-card-title Leave a review!
+      button#closeReview.delete(aria-label='close')
+    section.modal-card-body
+      form#reviewForm
+        // Rating
+        .field
+          p.control.has-icons-left
+            input.input(type='text' placeholder='0-10')
+        // plot summary
+        .field
+          p.control.has-icons-left
+            input.input(type='text' placeholder='Plot Summary')
+        // review
+        .field
+          p.control.has-icons-left
+            input.input(type='text' placeholder='Review')
+    footer.modal-card-foot
+      button.button.is-success Leave Review 
+      button#cancelReview.button Cancel
+

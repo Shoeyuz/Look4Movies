@@ -23,86 +23,34 @@ html(lang='en')
     section
       .content.is-large.has-text-centered.pt-6.pb-6
         h1 What's popular now?
+
+
+
     .columns.is-3.is-centered
-      .column.is-one-third
-        a(href='/movieSingle.html')
-        .card
-          a(href='/movieSingle.html')
-            .card-image
-              figure.image.is-4by3
-                img(src= moviesToShow[0].Poster)
-          header.card-header
-            a(href='/movieSingle.html')
+      each val in [0, 1, 2]
+        .column.is-one-third
+          .card
+            a(href='/movies/' + moviesToShow[val].Title)
+              .card-image
+                figure.image.is-4by3
+                  img(src= moviesToShow[val].Poster)
+            header.card-header
               p.card-header-title
-                | Fellowship of the Ring
-            a.card-header-icon(href='#' aria-label='more options')
-              span.icon
-                i.fas.fa-angle-down(aria-hidden='true')
-          .card-content
-            .content
-              | An epic journey about a buncha people defending this hobbit with a ring. 
-              br
-              br
-              br
-              |               Rating: 10/10
-              br
-              |               Run Time: 3:15 hours (extended edition)
-              br
-              |               Release Year: 2001
-              br
-      // ------------------------------
-      .column.is-one-third
-        a(href='/movieSingle.pug')
-        .card
-          a(href='/movieSingle.pug')
-            .card-image
-              figure.image.is-4by3
-                img(src='https://bulma.io/images/placeholders/1280x960.png' alt='Placeholder image')
-          header.card-header
-            a(href='/movieSingle.pug')
-              p.card-header-title
-                | The Two Towers
-            a.card-header-icon(href='#' aria-label='more options')
-              span.icon
-                i.fas.fa-angle-down(aria-hidden='true')
-          .card-content
-            .content
-              | The hobbit got lost, but the journey ain't over. 
-              | An epic battle, a long walk, and two hungry hobbits 
-              br
-              br
-              br
-              |             Rating: 12/10
-              br
-              |             Run Time: 3:45 hours (extended edition)
-              br
-              |             Release Year: 2002
-              br
-      .column.is-one-third
-        a(href='/movieSingle.pug')
-        .card
-          a(href='/movieSingle.pug')
-            .card-image
-              figure.image.is-4by3
-                img(src='https://bulma.io/images/placeholders/1280x960.png' alt='Placeholder image')
-          header.card-header
-            a(href='/movieSingle.pug')
-              p.card-header-title
-                | Return of the King
-            a.card-header-icon(href='#' aria-label='more options')
-              span.icon
-                i.fas.fa-angle-down(aria-hidden='true')
-          .card-content
-            .content
-              | A crown reclaimed, a battle fought, and
-              | a hobbit threw away the ring 
-              br
-              br
-              br
-              |             Rating: 14/10
-              br
-              |             Run Time: 4:11 hours (extended edition)
-              br
-              |             Release Year: 2003
-              br
-    script(src="/js/navigation.js")
+                | #{moviesToShow[val].Title}
+              a.card-header-icon(href='#' aria-label='more options')
+                span.icon
+                  i.fas.fa-angle-down(aria-hidden='true')
+            .card-content
+              .content
+                | #{moviesToShow[val].Plot} 
+                br
+                br
+                br
+                |               Rating: #{moviesToShow[val].imdbRating}
+                br
+                |               Run Time: #{moviesToShow[val].Runtime}
+                br
+                |               Release Year: #{moviesToShow[val].Released}
+                br
+        
+      script(src="/js/navigation.js")

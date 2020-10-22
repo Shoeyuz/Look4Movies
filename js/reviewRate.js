@@ -5,60 +5,91 @@
 document.addEventListener('DOMContentLoaded', () => {
 
 
-    //close the modal pop ups so they dont show
-    closeRate();
-    closeReview();
+  //close the modal pop ups so they dont show
+  closeRate();
+  closeReview();
 
 
-  
+
 });
 
 
 // Responsible for modal actions
 
 //adding action listeners to modal 
-document.getElementById("rateMovie").addEventListener('click',openRate);
-document.getElementById("reviewMovie").addEventListener('click',openReview);
+document.getElementById("rateMovie").addEventListener('click', openRate);
+document.getElementById("reviewMovie").addEventListener('click', openReview);
 
 
 //adding action listeners to modal sections
-document.getElementById("closeRate").addEventListener('click',closeRate);
-document.getElementById("closeReview").addEventListener('click',closeReview);
+document.getElementById("closeRate").addEventListener('click', closeRate);
+document.getElementById("closeReview").addEventListener('click', closeReview);
 
-document.getElementById("cancelRate").addEventListener('click',closeRate);
-document.getElementById("cancelReview").addEventListener('click',closeReview);
+document.getElementById("cancelRate").addEventListener('click', closeRate);
+document.getElementById("cancelReview").addEventListener('click', closeReview);
 
 
 
 //open sign up modal
-function openReview(){
-  
+function openReview() {
+
   document.getElementById("review").classList.add("is-active");
 }
 
 //close sign up modal
-function closeReview(){
+function closeReview() {
   document.getElementById("review").classList.remove("is-active");
 
   //clears the input in the form
   document.getElementById("reviewForm").reset();
- 
+
 }
 
 
 //open log in modal
-function openRate(){
+function openRate() {
   document.getElementById("rate").classList.add("is-active");
 }
 
 //close sign up modal
-function closeRate(){
+function closeRate() {
   document.getElementById("rate").classList.remove("is-active");
 
   //clears the input in the form
   document.getElementById("rateForm").reset();
- 
+
 }
 
 
 
+document.getElementById("submitRate").addEventListener('click', addRating);
+
+function addRating() {
+  let title = document.title;
+  const rating = document.getElementById("ratingValue").value;
+
+
+  const sending = [];
+  sending.push(title);
+  sending.push(rating);
+
+  //console.log(sending);
+  if (!(rating > 0 && rating <= 10)) {
+    alert("Please enter a value that is 0-10");
+  }
+
+  else {
+    fetch("/submitRate", {
+      method: "post",
+      body: JSON.stringify(sending)
+    }).then(() => {
+      location.reload();
+    }).catch(err => {
+      alert(err);
+    })
+
+
+    closeRate();
+
+  }
+}

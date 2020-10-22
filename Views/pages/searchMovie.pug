@@ -25,22 +25,33 @@ html(lang='en')
         input.input.is-medium.is-dark(type='text' placeholder='Earliest year of release')
         input.input.is-medium.is-dark(type='text' placeholder='Latest Year of Release')
         .select
-          select
+          select#genre
             option Action
             option Comedy
             option Romance
             option Thriller
             option Drama
             option Horror
-        input.input.is-medium.is-dark(type='text' placeholder='Name of movie (optional)')
-        input.input.is-medium.is-dark(type='text' placeholder='Max Length of Movie (optional)')
+            option Family
+        input.input.is-medium.is-dark(type='text' placeholder='Name of movie')
+        input.input.is-medium.is-dark(type='text' placeholder='Max Length of Movie')
         input#movieFinderSubmit.button(type='submit' value='Search')
     section
       .content.is-large.has-text-centered.pt-6.pb-6
         h1 Find an actor/director
       form#actorFinder
         input.input.is-medium.is-dark(type='text' placeholder=' Actor Name')
-        input.input.is-medium.is-dark(type='text' placeholder='Year of birth')
-        input.input.is-medium.is-dark(type='text' placeholder='Year of death (if applicable)')
         input#actorFinderSubmit.button(type='submit' value='Search')
+
+    section
+      .content.is-large.has-text-centered.pt-6.pb-6
+        h1 Find a user
+      form#actorFinder
+        input.input.is-medium.is-dark(type='text' placeholder='Part of name')
+        input#userFinderSubmit.button(type='submit' value='Search')
+
     script(src="/js/navigation.js")
+    script(src="/js/searchMovie.js")
+
+
+    

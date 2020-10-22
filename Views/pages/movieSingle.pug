@@ -15,15 +15,19 @@ html(lang='en')
       // Left side
       .level-item.hast
         .level-item.has-text-centered
-          figure.image.is-128x128
+          figure.image.is-256x256
             img.is-rounded(src= singleMovie.Poster)
     .content.has-text-centered
+      br
+      br
+      br
+      br
       h1.is-large #{singleMovie.Title}
       p
         | #{singleMovie.Plot}
       br
       h2.is-medium Information
-      p Runtime: #{singleMovie.Runtime}
+      p Runtime: #{singleMovie.Runtime} min
       p Release: #{singleMovie.Released}
       p
         | Genres: 
@@ -32,6 +36,8 @@ html(lang='en')
             | ,
        
       p Rating: #{singleMovie.imdbRating}
+      p User Ratings: #{uRating}
+
       #rateMovie.button.is-primary.is-light Rate this movie
       h2 Actors
       p
@@ -54,48 +60,29 @@ html(lang='en')
       h2  Reviews 
       #reviewMovie.button.is-primary.is-light Review this movie
 
+      each review in uReviews
+        a(href='userSingle.html')
+          .box
+            article.media
+              .media-left
+                figure.image.is-64x64
+                  img(src='https://bulma.io/images/placeholders/128x128.png' alt='Image')
+              .media-content
+                .content
+                  p
+                    strong #{review.name}
+                    br
+                    strong #{review.rating} / 10
 
-      a(href='userSingle.html')
-        .box
-          article.media
-            .media-left
-              figure.image.is-64x64
-                img(src='https://bulma.io/images/placeholders/128x128.png' alt='Image')
-            .media-content
-              .content
-                p
-                  strong John Smith
-                  br
-                  |                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla
-                  |                 egestas. Nullam condimentum luctus turpis.
-      a(href='userSingle.html')
-        .box
-          article.media
-            .media-left
-              figure.image.is-64x64
-                img(src='https://bulma.io/images/placeholders/128x128.png' alt='Image')
-            .media-content
-              .content
-                p
-                  strong Winter Man (the image on the left will hold a num corresponding to their rating)
-                  br
-                  |                 Will have brief summary at top
-                  br
-                  br
-                  |                 And then review here
-      a(href='userSingle.html')
-        .box
-          article.media
-            .media-left
-              figure.image.is-64x64
-                img(src='https://bulma.io/images/placeholders/128x128.png' alt='Image')
-            .media-content
-              .content
-                p
-                  strong Eddy the Tree
-                  br
-                  |                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla
-                  |                 egestas. Nullam condimentum luctus turpis.
+                    br
+                    
+                    |                Summary: #{review.plotSummary}
+                    br
+                    
+                    |                Review: #{review.review}
+
+
+        
       h2  Similar Movies 
       .columns.is-3.is-centered
         .column.is-one-third

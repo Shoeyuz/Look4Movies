@@ -10,9 +10,9 @@
         // RATING
         .field
           p.control.has-icons-left
-            input.input(type='text' placeholder='0-10')
+            input#ratingValue.input(type='text' placeholder='0-10')
     footer.modal-card-foot
-      button.button.is-success Rate 
+      button#submitRate.button.is-success Rate 
       button#cancelRate.button Cancel
 
 
@@ -38,6 +38,6 @@
           p.control.has-icons-left
             input.input(type='text' placeholder='Review')
     footer.modal-card-foot
-      button.button.is-success Leave Review 
+      button#submitReview.button.is-success Leave Review 
       button#cancelReview.button Cancel
 

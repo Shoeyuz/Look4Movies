@@ -6,11 +6,14 @@ const fs = require("fs");
 const renderIndex = pug.compileFile('Views/pages/index.pug');
 const renderMovies = pug.compileFile('Views/pages/movies.pug');
 const renderActors = pug.compileFile('Views/pages/actors.pug');
-const renderGenres = pug.compileFile('Views/pages/genres.pug');
 const renderSearchMovie = pug.compileFile('Views/pages/searchMovie.pug');
 const renderSelfProfile = pug.compileFile('Views/pages/selfProfile.pug');
 const renderSingleMovie = pug.compileFile('Views/pages/movieSingle.pug');
 const renderSingleActor = pug.compileFile('Views/pages/actorSingle.pug');
+
+const renderSearchResultsActors = pug.compileFile('Views/pages/searchActorResults.pug');
+const renderSearchResultsUsers = pug.compileFile('Views/pages/searchUserResults.pug');
+const renderSearchResultsMovies = pug.compileFile('Views/pages/searchMovieResults.pug');
 
 
 var loggedIn = 0;  //0 for logged out, 1 for logged in 
@@ -18,6 +21,7 @@ var loggedIn = 0;  //0 for logged out, 1 for logged in
 
 //Set up the required data
 let movieData = require("./movies.json");
+const { create } = require('domain');
 let moviesAbove70 = []; //gets list of popular movies (above 7,0 rating)
 
 let movieGenres = [];
@@ -39,12 +43,11 @@ createDictForReviews(); //creates dictionary for the reviews
 let users = {
 
 	"1001": {
-		name: "Michael",
+		name: "Cronk",
 		password: "12345",
 		likedMovies: ["Heat"],
 		subscribedActors: ["Sean Bean"],
 		subscribedUsers: ["Mathew"],
-		recommendedMovie: ["Toy Story"]
 	},
 
 	"1003": {
@@ -53,7 +56,6 @@ let users = {
 		likedMovies: ["Toy Story"],
 		subscribedActors: ["Sean Bean"],
 		subscribedUsers: ["Mathew"],
-		recommendedMovie: ["Heat"]
 	},
 
 	"1002": {
@@ -62,7 +64,6 @@ let users = {
 		likedMovies: ["Jumanji"],
 		subscribedActors: ["Sean Bean"],
 		subscribedUsers: ["Michael"],
-		recommendedMovie: ["Toy Story"]
 
 	}
 
@@ -87,6 +88,7 @@ function send500(response) {
 
 //Initialize server
 const server = http.createServer(function (request, response) {
+	createActorList();
 
 
 	if (request.method === "GET") {
@@ -136,7 +138,7 @@ const server = http.createServer(function (request, response) {
 			movieWriters = [];
 			movieDirector = null;
 			let userRatings = 0;
-			let thisReviews = {};
+			let thisReviews = [];
 			let mov = request.url.slice(8);
 			mov = decodeURI(mov); //IMPORTANT TO GET RID OF URI ENCODING. A space is saved as a %20 for example
 			try {
@@ -149,7 +151,7 @@ const server = http.createServer(function (request, response) {
 						movieDirector = element.Director;
 
 						thisReviews = movieReviews[element.Title];
-
+						console.log(thisReviews);
 
 						userRatings = findAverage((movieRatings[element.Title]));
 
@@ -219,11 +221,99 @@ const server = http.createServer(function (request, response) {
 
 
 
+		} else if (request.url.startsWith("/searchActor?")) {
+
+			let mov = request.url.slice(13);
+			mov.split["="];
+			mov = mov.substr(mov.indexOf("=") + 1);
+
+			let possibleActs = [];
+
+			possibleActs = searchForActors(mov);
+
+			try {
+				//this looks for the actor to check if it exists
+				if (possibleActs != []) {
+
+					let content = renderSearchResultsActors({ people: possibleActs });
+					response.statusCode = 200;
+					response.end(content);
+					return;
+				}
+				else {
+					let content = renderSearchResultsActors({ people: possibleActs });
+					response.statusCode = 200;
+					response.end(content);
+					return;
+				}
+			}
+			catch (err) {
+				console.log(err);
+				console.log("Exception finding actor");
+				send404(response);
+				return;
+			}
+
+
+		} else if (request.url.startsWith("/searchUser?")) {
+
+			let mov = request.url.slice(12);
+			mov.split["="];
+			mov = mov.substr(mov.indexOf("=") + 1);
+
+			let possibleUsers = [];
+			console.log(mov);
+
+			possibleUsers = searchForUser(mov);
+
+			try {
+				//this looks for the actor to check if it exists
+				if (possibleUsers != []) {
+
+					let content = renderSearchResultsUsers({ people: possibleUsers });
+					response.statusCode = 200;
+					response.end(content);
+					return;
+				}
+				else {
+					let content = renderSearchResultsUsers({ people: possibleUsers });
+					response.statusCode = 200;
+					response.end(content);
+					return;
+				}
+			}
+			catch (err) {
+				console.log(err);
+				console.log("Exception finding user");
+				send404(response);
+				return;
+			}
+
+
+		} else if (request.url.startsWith("/searchMovie?")) {
+
+			let mov = request.url.slice(13);
+			let querries = mov.split("&");
+
+			querries[0] = decodeURI(querries[0]);
+
+
+
+			let posMov = [];
+			posMov = searchForMovie(querries[0], querries[1], querries[2], querries[3], null);
+			//console.log(querries[4]);
+
+			let content = renderSearchResultsMovies({ movies: posMov });
+			response.statusCode = 200;
+			response.end(content);
+			return;
+
+
 		} else if (request.url.startsWith("/actors/")) {
 			let act = request.url.slice(8);
 			act = decodeURI(act);
 			act = act.trim();
-			createActorList();
+			//createActorList();
 
 
 			try {
@@ -299,6 +389,16 @@ const server = http.createServer(function (request, response) {
 				response.end(data);
 				return;
 			});
+		} else if (request.url === "/js/searchMovie.js") {
+			fs.readFile("js/searchMovie.js", function (err, data) {
+				if (err) {
+					send500(response);
+					return;
+				}
+				response.statusCode = 200;
+				response.end(data);
+				return;
+			});
 		} else {
 			response.statusCode = 404;
 			response.write("Unknwn resource.");
@@ -322,6 +422,46 @@ const server = http.createServer(function (request, response) {
 				//this converts the given string into a number
 
 				movieRatings[title].push(rating);
+				//this changes the movie rating array for that movie
+
+
+				response, statusCode = 200;
+				response.end(0);
+
+
+
+			});
+		}
+
+		if (request.url === "/submitReview") {
+			let postData = "";
+
+			request.on("data", chunk => postData += chunk);
+
+
+			request.on("end", () => {
+				postData = JSON.parse(postData);
+
+				console.log(postData);
+				let title = postData[0];
+				let rate = Number(postData[1]);
+				let plotSum = (postData[2]);
+				let rev = (postData[3]);
+				let id = (postData[4]);
+
+
+				let finalReview = {
+
+					id: {
+						name: "Michael",
+						rating: rate,
+						plotSummary: plotSum,
+						review: rev
+					}
+				};
+
+
+				movieReviews[title].push(finalReview);
 				//this changes the movie rating array for that movie
 
 
@@ -384,7 +524,7 @@ function createActorList() {
 		for (let j = 0; j < temp.length; j++) {
 			if (!(temp[j] in actors)) {  //if it doesnt exist before
 				actors[temp[j]] = {
-
+					name: temp[j],
 					movies: [movieData[i].Title], //array to push to later
 					actedWith: temp.concat(others, others2)
 
@@ -408,7 +548,7 @@ function createActorList() {
 
 			if (!(temp[j] in actors)) {  //if it doesnt exist before
 				actors[temp[j]] = {
-
+					name: temp[j],
 					movies: [movieData[i].Title], //array to push to later
 					actedWith: temp.concat(others, others2)
 
@@ -428,7 +568,7 @@ function createActorList() {
 
 		if (!(temp in actors)) {  //if it doesnt exist before
 			actors[temp] = {
-				//name: temp,
+				name: temp,
 				movies: [movieData[i].Title], //array to push to later
 				actedWith: temp.concat(others, others2)
 
@@ -441,7 +581,7 @@ function createActorList() {
 function createDictForReviews() {
 	for (let i = 0; i < movieData.length; i++) {
 		if (!(movieData[i].Title in movieReviews)) {
-			movieReviews[movieData[i].Title] = {
+			movieReviews[movieData[i].Title] = [];/*{
 
 
 				"1002": {
@@ -459,7 +599,7 @@ function createDictForReviews() {
 				}
 
 
-			}
+			}*/
 		}
 	}
 }
@@ -479,9 +619,6 @@ function generateSimilarMovie() {
 	//generates similar movies for the given movie
 }
 
-function search() {
-	//searches for writer/actor/director or for a movie
-}
 
 
 
@@ -534,8 +671,8 @@ function searchForUser(name) {
 	let possibleUsers = [];
 
 	for (element in users) {
-		if (users[element].includes(name)) {
-			possibleUsers.push(element);
+		if (users[element].name.includes(name)) {
+			possibleUsers.push(users[element]);
 		}
 	}
 
@@ -544,10 +681,11 @@ function searchForUser(name) {
 
 
 
-/*
-createActorList();
-console.log(searchForActors("Tom"));
-*/
+
+//createActorList();
+//console.log("searching");
+//console.log(searchForActors("Tom"));
+
 
 //Functions to search for actors based on the name or part of it, returns actor objects
 function searchForActors(name) {
@@ -555,17 +693,16 @@ function searchForActors(name) {
 
 	for (element in actors) {
 		if (element.includes(name)) {
-			possibleActors.push(element);
+			possibleActors.push(actors[element]);
 		}
 	}
 	return possibleActors;
 }
 
 
-
-//console.log(searchForMovie("a",null,null,105));
-//Function to search for movie based on name, release year caps, and run time. Returns movie objects
-function searchForMovie(name, releaseYearMax, releaseYearMin, runTimeMax) {
+//console.log(searchForMovie(null,"Action",null,null,null));
+//Function to search for movie based on name(string), genre (needs to be string), release year caps, and run time. Returns movie objects
+function searchForMovie(name, genre, releaseYearMax, releaseYearMin, runTimeMax) {
 	let possibleMovies = [];
 
 	if (name == null)
@@ -580,12 +717,142 @@ function searchForMovie(name, releaseYearMax, releaseYearMin, runTimeMax) {
 	if (runTimeMax == null)
 		runTimeMax = 10000;
 
+	if (genre == null)
+		genre = "";
 
 	for (let i = 0; i < movieData.length; i++) {
-		if(movieData[i].Title.includes(name) && (movieData[i].Year >= releaseYearMin && movieData[i].Year <= releaseYearMax) && movieData[i].Runtime <= runTimeMax){
+		if (movieData[i].Title.includes(name) && movieData[i].Year >= releaseYearMin && movieData[i].Year <= releaseYearMax && movieData[i].Runtime <= runTimeMax && movieData[i].Genre.includes(genre)) {
 			possibleMovies.push(movieData[i]);
 		}
 	}
 
 	return possibleMovies;
 }
+
+
+//console.log(movieData[1]);
+//console.log(getSimilarMovies(movieData[1]));
+//find similar movies based on genre
+function getSimilarMovies(movie) {
+	let sim = [];
+	for (let i = 0; i < movieData.length; i++) {
+		let temp = movieData[i].Genre.split(", ");
+		let here = 0;
+
+
+		for (let j = 0; j < temp.length; j++) {
+			if (movie.Genre.includes(temp[j]) && movie.Rated === (movieData[i].Rated))
+				here = 1;
+		}
+		if (here == 1)
+			sim.push(movieData[i]);
+	}
+
+	return sim;
+}
+
+//given list of liked movies find recommendation
+//Again based off of liked movie list which will then check for similar movies THAT ARE HIGHER RATED THAN 6.0
+//console.log(getRecommendedMovie(users[1002].likedMovies));
+
+function getRecommendedMovie(liked) {
+	let sim = [];
+
+	liked.forEach(element => {
+		for (let i = 0; i < movieData.length; i++) {
+			if (movieData[i].Title === element) {
+				liked.pop();
+				liked.push(movieData[i]);
+			}
+		}
+	});
+
+
+
+	liked.forEach(element => {
+		for (let i = 0; i < movieData.length; i++) {
+			let temp = movieData[i].Genre.split(", ");
+			let here = 0;
+
+
+			for (let j = 0; j < temp.length; j++) {
+				if (element.Genre.includes(temp[j]) && element.Rated === (movieData[i].Rated) && movieData[i].imdbRating > 6.0)
+					here = 1;
+			}
+			if (here == 1)
+				sim.push(movieData[i]);
+		}
+
+	});
+
+
+
+
+	return sim;
+}
+
+
+//adds an actor object to the actor dictionary
+// does not allow adding if the actor already exists
+
+function addActor(name) {
+	if (!(name in actors)) {
+		actors[name] = {
+			movies: [],
+			actedWith: []
+		};
+	}
+
+	else
+		console.log("Actor exists.");
+
+}
+/*createActorList();
+
+addActor("Michael");
+addActor("Tom Hanks");
+
+console.log(actors["Michael"]);
+console.log(actors["Tom Hanks"]);
+TESTING PURPOSES
+*/
+
+
+function addMovie(title, poster, runtime, released, genre, actors, writers, director, rating,) {
+
+}
+
+function editMovie(title, actor, writer) {
+
+	
+	for (let i = 0; i < movieData.length; i++) {
+
+		if (movieData[i].Title === title) {
+			console.log(title);
+			if (actor !== ""){
+				actors[actor].movies.push(title);
+				movieData[i].Actors += (", " + actor);
+				//need to add to dictionary of ppl worked with
+			}
+			if (writer !== ""){
+				movieData[i].Writer.concat(writer);
+				actors[writer].movies.push(title);
+				//need to add to dictionary of people worked with
+			}
+		}
+
+
+	}
+}
+/* TESTING:::;
+
+
+works :)
+*/
+
+createActorList();
+addActor("matthew");
+editMovie("Jumanji", "Michael S", "matthew");
+console.log(movieData[1]);
+console.log(actors["Michael S"]);
+console.log(actors["matthew"]);

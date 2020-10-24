@@ -16,30 +16,30 @@ html(lang='en')
      
       h2  Movies Part Of:
       columns.is-3.is-centered
-      each val in [0]
+      each val in moviesToShow
         .column.is-one-third
           .card
-            a(href='/movies/' + moviesToShow[val].Title)
+            a(href='/movies/' + val.Title)
               .card-image
                 figure.image.is-4by3
-                  img(src= moviesToShow[val].Poster)
+                  img(src= val.Poster)
             header.card-header
               p.card-header-title
-                | #{moviesToShow[val].Title}
+                | #{val.Title}
               a.card-header-icon(href='#' aria-label='more options')
                 span.icon
                   i.fas.fa-angle-down(aria-hidden='true')
             .card-content
               .content
-                | #{moviesToShow[val].Plot} 
+                | #{val.Plot} 
                 br
                 br
                 br
-                |               Rating: #{moviesToShow[val].imdbRating}
+                |               Rating: #{val.imdbRating}
                 br
-                |               Run Time: #{moviesToShow[val].Runtime}
+                |               Run Time: #{val.Runtime}
                 br
-                |               Release Year: #{moviesToShow[val].Released}
+                |               Release Year: #{val.Released}
                 br
       h2  Frequent Collaborators:
       p

@@ -36,9 +36,14 @@ html(lang='en')
             | ,
        
       p Rating: #{singleMovie.imdbRating}
-      p User Ratings: #{uRating}
+      p Look4MoviesUser Ratings: #{uRating}
 
       #rateMovie.button.is-primary.is-light Rate this movie
+
+
+
+      #changeValues.button.is-primary.is-warning Edit this movie
+
       h2 Actors
       p
         ul
@@ -60,8 +65,8 @@ html(lang='en')
       h2  Reviews 
       #reviewMovie.button.is-primary.is-light Review this movie
 
-      each review in uReviews
-        a(href='userSingle.html')
+      for review in uReviews
+        a(href='#')
           .box
             article.media
               .media-left
@@ -70,23 +75,23 @@ html(lang='en')
               .media-content
                 .content
                   p
-                    strong #{review.name}
+                    strong #{review.id.name}
                     br
-                    strong #{review.rating} / 10
+                    strong #{review.id.rating} / 10
 
                     br
                     
-                    |                Summary: #{review.plotSummary}
+                    |                Summary: #{review.id.plotSummary}
                     br
                     
-                    |                Review: #{review.review}
+                    |                Review: #{review.id.review}
 
 
         
       h2  Similar Movies 
       .columns.is-3.is-centered
         .column.is-one-third
-          a(href='movieSingle.html')
+          a(href='#')
           .card
             a(href='movieSingle.html')
               .card-image

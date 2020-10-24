@@ -93,3 +93,52 @@ function addRating() {
 
   }
 }
+
+
+
+document.getElementById("submitReview").addEventListener('click', addReview);
+
+function addReview() {
+  let title = document.title;
+
+  const rating = document.getElementById("rval").value;
+  const plotSum = document.getElementById("plotSummary").value;
+  const review = document.getElementById("theReview").value;
+
+  const sending = [];
+
+
+  const id = "1001";
+
+
+  sending.push(title);
+  sending.push(rating);
+  sending.push(plotSum);
+  sending.push(review);
+  sending.push(id);
+
+
+
+
+  //console.log(sending);
+  if (!(rating > 0 && rating <= 10)) {
+    alert("Please enter a value that is 0-10");
+  }
+
+  else {
+    fetch("/submitReview", {
+      method: "post",
+      body: JSON.stringify(sending)
+    }).then(() => {
+      location.reload();
+    }).catch(err => {
+      alert(err);
+    })
+
+
+    closeReview();
+
+  }
+}
+
+

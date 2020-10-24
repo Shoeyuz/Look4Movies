@@ -22,8 +22,8 @@ html(lang='en')
       .content.is-large.has-text-centered.pt-6.pb-6
         h1 Find a movie
       form#movieFinder
-        input.input.is-medium.is-dark(type='text' placeholder='Earliest year of release')
-        input.input.is-medium.is-dark(type='text' placeholder='Latest Year of Release')
+        input#yearMin.input.is-medium.is-dark(type='text' placeholder='Earliest year of release')
+        input#yearMax.input.is-medium.is-dark(type='text' placeholder='Latest Year of Release')
         .select
           select#genre
             option Action
@@ -33,22 +33,23 @@ html(lang='en')
             option Drama
             option Horror
             option Family
-        input.input.is-medium.is-dark(type='text' placeholder='Name of movie')
-        input.input.is-medium.is-dark(type='text' placeholder='Max Length of Movie')
-        input#movieFinderSubmit.button(type='submit' value='Search')
+            opption Any
+        input#nameMovie.input.is-medium.is-dark(type='text' placeholder='Name of movie')
+        input#lengthMovie.input.is-medium.is-dark(type='text' placeholder='Max Length of Movie')
+        input#movieFinderSubmit.button(type='reset' value='Search')
     section
       .content.is-large.has-text-centered.pt-6.pb-6
         h1 Find an actor/director
       form#actorFinder
-        input.input.is-medium.is-dark(type='text' placeholder=' Actor Name')
-        input#actorFinderSubmit.button(type='submit' value='Search')
+        input#actorName.input.is-medium.is-dark(type='text' placeholder=' Actor Name')
+        input#actorFinderSubmit.button(type='reset' value='Search')
 
     section
       .content.is-large.has-text-centered.pt-6.pb-6
         h1 Find a user
-      form#actorFinder
-        input.input.is-medium.is-dark(type='text' placeholder='Part of name')
-        input#userFinderSubmit.button(type='submit' value='Search')
+      form#userFinder
+        input#userName.input.is-medium.is-dark(type='text' placeholder='Part of name')
+        input#userFinderSubmit.button(type='reset' value='Search')
 
     script(src="/js/navigation.js")
     script(src="/js/searchMovie.js")

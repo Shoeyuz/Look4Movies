@@ -619,9 +619,6 @@ function createDictForRatings() {
 }
 
 
-function generateSimilarMovie() {
-	//generates similar movies for the given movie
-}
 
 
 

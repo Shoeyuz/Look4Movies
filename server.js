@@ -22,6 +22,7 @@ var loggedIn = 0;  //0 for logged out, 1 for logged in
 //Set up the required data
 let movieData = require("./movies.json");
 const { create } = require('domain');
+const { writer } = require('repl');
 let moviesAbove70 = []; //gets list of popular movies (above 7,0 rating)
 
 let movieGenres = [];
@@ -127,7 +128,9 @@ const server = http.createServer(function (request, response) {
 			return;
 		}
 		else if (request.url === "/selfProfile") {
-			let content = renderSelfProfile({ user: users["1001"] });
+			let rec = getRecommendedMovie(users["1001"].likedMovies);
+			console.log(rec);
+			let content = renderSelfProfile({ user: users["1001"], recommendations: rec });
 			response.statusCode = 200;
 			response.end(content);
 			return;
@@ -390,6 +393,7 @@ const server = http.createServer(function (request, response) {
 				return;
 			});
 		} else if (request.url === "/js/searchMovie.js") {
+			
 			fs.readFile("js/searchMovie.js", function (err, data) {
 				if (err) {
 					send500(response);
@@ -818,9 +822,54 @@ TESTING PURPOSES
 */
 
 
-function addMovie(title, poster, runtime, released, genre, actors, writers, director, rating,) {
+function addMovie(title, poster, runtime, 
+	released, genre, actorsArr, rated, writerArr, director, rating, plot	) {
+	
+	checkAct = actorsArr.split(",");
+	checkWriter = writerArr.split(",");
 
+	checkAct.forEach(element => {
+		if(!element in actors)
+			return false;
+	});
+
+	checkWriter.forEach(element => {
+		if(!element in actors)
+			return false;
+	});
+
+
+	let newMov = {
+		Title : title,
+		Poster : poster,
+		Year : released,
+		Rated : rated,
+		Runtime : runtime,
+		Genre : genre,
+		Actors : actorsArr,
+		Writers : writerArr,
+		Director : director,
+		imdbRating : rating,
+		Plot : plot
+	}
+
+	movieData.push(newMov);
+
+	createDictForRatings();
+	createDictForReviews();
 }
+/*
+TESTER: WORKS 
+createActorList();
+
+addMovie(
+	"My movie", "#", "123", "1992", "Fantasy", "Tom Hanks, Sean Bean",
+	"G", "Pete Docter", "Michael S", "9.2", "Great movie"
+);
+console.log(movieData[movieData.length-1]);
+*/
+
+
 
 function editMovie(title, actor, writer) {
 
@@ -845,14 +894,15 @@ function editMovie(title, actor, writer) {
 	}
 }
 /* TESTING:::;
-
-
-works :)
-*/
-
 createActorList();
 addActor("matthew");
 editMovie("Jumanji", "Michael S", "matthew");
 console.log(movieData[1]);
 console.log(actors["Michael S"]);
 console.log(actors["matthew"]);
+
+works :)
+*/
+/*
+
+*/

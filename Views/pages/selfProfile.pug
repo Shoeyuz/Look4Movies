@@ -41,15 +41,35 @@ html(lang='en')
         ul
         for userFol in user.subscribedUsers
             li
-                a(href="/users/" + userFol) #{userFol}
+                a(href="#") #{userFol}
 
-      h2  Recommended movies:
-      p
-        ul
-        for mov in user.recommendedMovie
-            li
-                a(href="/movies/" + mov) #{mov}
-
+      h2 Recommended Movies For You:
+      columns.is-3.is-centered
+        for rec in recommendations
+          .column.is-one-third
+            .card
+              a(href='/movies/' + rec.Title)
+                .card-image
+                  figure.image.is-4by3
+                    img(src= rec.Poster)
+              header.card-header
+                p.card-header-title
+                  | #{rec.Title}
+                a.card-header-icon(href='#' aria-label='more options')
+                  span.icon
+                    i.fas.fa-angle-down(aria-hidden='true')
+              .card-content
+                .content
+                  | #{rec.Plot} 
+                  br
+                  br
+                  br
+                  |               Rating: #{rec.imdbRating}
+                  br
+                  |               Run Time: #{rec.Runtime}
+                  br
+                  |               Release Year: #{rec.Released}
+                  br
               
     script(src="/js/navigation.js")
     script(src="/js/selfProfile.js")

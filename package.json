@@ -1,0 +1,24 @@
+{
+  "dependencies": {
+    "express": "^4.17.1",
+    "pug": "^3.0.0"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "name": "look4movies",
+  "version": "1.0.0",
+  "main": "server.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shoeyuz/Look4Movies.git"
+  },
+  "author": "Michael Shlega",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Shoeyuz/Look4Movies/issues"
+  },
+  "homepage": "https://github.com/Shoeyuz/Look4Movies#readme",
+  "description": ""
+}

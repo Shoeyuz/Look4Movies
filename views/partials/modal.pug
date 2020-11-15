@@ -10,17 +10,14 @@
         // USERNAME
         .field
           p.control.has-icons-left
-            input.input(type='text' placeholder='Username')
+            input#name.input(type='text' placeholder='Username')
         // PASSWORD
         .field
           p.control.has-icons-left
-            input.input(type='password' placeholder='Password')
+            input#pass.input(type='password' placeholder='Password')
         // PASS CONFIRM
-        .field
-          p.control.has-icons-left
-            input.input(type='password' placeholder='Password Confirmation')
     footer.modal-card-foot
-      button.button.is-success Register 
+      button#register.button.is-success Register 
       button#cancelSignUp.button Cancel
 // MODAL FOR SIGN UP
 #logInModal.modal
@@ -34,12 +31,76 @@
         // USERNAME
         .field
           p.control.has-icons-left
-            input.input(type='text' placeholder='Username')
+            input#uname.input(type='text' placeholder='Username')
         // PASSWORD
         .field
           p.control.has-icons-left
-            input.input(type='password' placeholder='Password')
+            input#upass.input(type='password' placeholder='Password')
     footer.modal-card-foot
-      button.button.is-success Login 
+      button#login.button.is-success Login 
       button#cancelLogIn.button Cancel
+
+// MODAL FOR new actor
+#newActorModal.modal
+  .modal-background
+  .modal-card
+    header.modal-card-head
+      p.modal-card-title Add a new person! 
+      button#closeNewActor.delete(aria-label='close')
+    section.modal-card-body
+      form#newActorForm
+        // Name
+        .field
+          p.control.has-icons-left
+            input#actorName.input(type='text' placeholder='Person name')
+    footer.modal-card-foot
+      button#submitNewActor.button.is-success Submit 
+      button#cancelNewActor.button Cancel
+
+
+// MODAL FOR NEW MOVIE
+#movieModal.modal
+  .modal-background
+  .modal-card
+    header.modal-card-head
+      p.modal-card-title Add a new movie! 
+      button#closeNewMovie.delete(aria-label='close')
+    section.modal-card-body
+      form#newMovieForm
+        .field
+          p.control.has-icons-left
+            input#title.input(type='text' placeholder='Title')
+        .field
+          p.control.has-icons-left
+            input#rated.input(type='text' placeholder='Rated')
+        .field
+          p.control.has-icons-left
+            input#plot.input(type='text' placeholder='Plot')
+        .field
+          p.control.has-icons-left
+            input#actors.input(type='text' placeholder='Actors (seperated by a comma with space)')
+        .field
+          p.control.has-icons-left
+            input#writers.input(type='text' placeholder='Writers (seperated by a comma with space)')
+        .field
+          p.control.has-icons-left
+            input#director.input(type='text' placeholder='Director')
+        .field
+          p.control.has-icons-left
+            input#runtime.input(type='text' placeholder='Runtime')
+        .field
+          p.control.has-icons-left
+            input#release.input(type='text' placeholder='Release')
+        .field
+          p.control.has-icons-left
+            input#genres.input(type='text' placeholder='Genres  (seperated by a comma with space)')
+        .field
+          p.control.has-icons-left
+            input#year.input(type='text' placeholder='Release year')
+        .field
+          p.control.has-icons-left
+            input#poster.input(type='text' placeholder='Poster url')
+    footer.modal-card-foot
+      button#submitNewMovie.button.is-success Submit 
+      button#cancelNewMovie.button Cancel
 

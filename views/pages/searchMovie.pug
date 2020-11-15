@@ -35,13 +35,13 @@ html(lang='en')
             option Family
             opption Any
         input#nameMovie.input.is-medium.is-dark(type='text' placeholder='Name of movie')
-        input#lengthMovie.input.is-medium.is-dark(type='text' placeholder='Max Length of Movie')
+        input#ratingMovie.input.is-medium.is-dark(type='text' placeholder='Min movie rating')
         input#movieFinderSubmit.button(type='reset' value='Search')
     section
       .content.is-large.has-text-centered.pt-6.pb-6
-        h1 Find an actor/director
+        h1 Find a movie creator
       form#actorFinder
-        input#actorName.input.is-medium.is-dark(type='text' placeholder=' Actor Name')
+        input#nameActor.input.is-medium.is-dark(type='text' placeholder=' Actor Name')
         input#actorFinderSubmit.button(type='reset' value='Search')
 
     section
@@ -53,6 +53,7 @@ html(lang='en')
 
     script(src="/js/navigation.js")
     script(src="/js/searchMovie.js")
+    script(src="/js/addTo.js")
 
 
     

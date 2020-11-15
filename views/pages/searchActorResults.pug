@@ -26,11 +26,11 @@ html(lang='en')
           th=iterator++
 
           td
-            a(href='/actors/' + actor.name) #{actor.name}
+            a(href='/people/' + actor.name) #{actor.name}
           
           td
             for movie in actor.movies
-              a(href='/movies/' + movie) #{movie}
+              a(href='/movies/' + movie) #{movie}, 
 
           
           

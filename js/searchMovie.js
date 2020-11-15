@@ -6,11 +6,10 @@ document.getElementById("actorFinderSubmit").addEventListener('click', createAct
 function createActorSearch() {
 
 
-    let name = document.getElementById("actorName").value;
-
-
+  
+    let n = document.getElementById("nameActor").value;
     //window.location.assign("http://localhost:3000/movies");
-    window.location.assign("/searchActor?name=" + name);
+    window.location.assign("/searchPeople?name=" + n );
     //this creates the search querry
 
     return false; //important to stop default behavior of button
@@ -22,11 +21,11 @@ document.getElementById("userFinderSubmit").addEventListener('click', createUser
 function createUserSearch() {
 
 
-    let name = document.getElementById("userName").value;
+    let nam = document.getElementById("userName").value;
 
 
     //window.location.assign("http://localhost:3000/movies");
-    window.location.assign("/searchUser?name=" + name);
+    window.location.assign("/searchUser?name=" + nam);
     //this creates the search querry
 
     return false; //important to stop default behavior of button
@@ -39,20 +38,23 @@ function createMovieSearch() {
 
 
     let name = document.getElementById("nameMovie").value;
+    let yearMin = document.getElementById("yearMin").value;
+    let yearMax = document.getElementById("yearMax").value;
+    let rate = document.getElementById("ratingMovie").value;
+
+
+
     if (name == "")
         name = "";
 
-    let yearMin = document.getElementById("yearMin").value;
     if (yearMin == "")
         yearMin = 1;
 
-    let yearMax = document.getElementById("yearMax").value;
     if (yearMax == "")
         yearMax = 300000;
 
-    let runTime = document.getElementById("lengthMovie").value;
-    if (runTime == "")
-        runTime = 3050;
+    if (rate == "")
+        rate = 0;
         
 
     let genre = document.getElementById("genre").value;
@@ -61,9 +63,8 @@ function createMovieSearch() {
 
 
 
-    //window.location.assign("http://localhost:3000/movies");
-    window.location.assign("/searchMovie?" + name + "&" + genre + "&" +
-        yearMax + "&" + yearMin + "&" + runTime);
+    window.location.assign("/searchMovie?name=" + name + "&genre=" + genre + "&yearMax=" +
+        yearMax + "&yearMin=" + yearMin + "&minRating=" + rate);
     //this creates the search querry
 
     return false; //important to stop default behavior of button

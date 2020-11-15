@@ -13,16 +13,23 @@ nav.navbar.is-black(role='navigation' aria-label='main navigation')
         | Dashboard
       a.navbar-item(href='/movies')
         | Movies
-      a.navbar-item(href='/actors')
+      a.navbar-item(href='/people')
         | Actors
-      a.navbar-item(href='/searchMovie')
+      a.navbar-item(href='/search')
         | Search
-      a.navbar-item(href='/selfProfile')
-        | Profile
+      if(loggedIn)
+        a.navbar-item(href='/users/selfProfile')
+          | Profile
     .navbar-end
       .navbar-item
         .buttons
+        if(!loggedIn)
           a#signUp.button.is-primary
             strong Sign up
           a#logIn.button.is-light
             | Log in
+        else 
+          a#lgOut.button.is-danger
+              | Log Out
+
+    script(src="/js/auth.js")

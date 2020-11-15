@@ -41,3 +41,24 @@
       button#submitReview.button.is-success Leave Review 
       button#cancelReview.button Cancel
 
+// MODAL FOR EDITING
+#addPeople.modal
+  .modal-background
+  .modal-card
+    header.modal-card-head
+      p.modal-card-title Add an actor or writer! Or both!
+      button#closeEdit.delete(aria-label='close')
+    section.modal-card-body
+      form#editForm
+        // plot summary
+        .field
+          p.control.has-icons-left
+            input#a.input(type='text' placeholder='Actors to add')
+        // review
+        .field
+          p.control.has-icons-left
+            input#w.input(type='text' placeholder='Writers to add')
+    footer.modal-card-foot
+      button#submitEdit.button.is-success Add changes
+      button#cancelEdit.button Cancel
+

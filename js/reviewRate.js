@@ -3,12 +3,15 @@
 
 
 document.addEventListener('DOMContentLoaded', () => {
+  
+ 
 
 
-  //close the modal pop ups so they dont show
+    //close the modal pop ups so they dont show
+
   closeRate();
   closeReview();
-
+  closeEdit();
 
 
 });
@@ -19,14 +22,17 @@ document.addEventListener('DOMContentLoaded', () => {
 //adding action listeners to modal 
 document.getElementById("rateMovie").addEventListener('click', openRate);
 document.getElementById("reviewMovie").addEventListener('click', openReview);
+document.getElementById("editMovie").addEventListener('click', openEdit);
 
 
 //adding action listeners to modal sections
 document.getElementById("closeRate").addEventListener('click', closeRate);
 document.getElementById("closeReview").addEventListener('click', closeReview);
+document.getElementById("closeEdit").addEventListener('click', closeEdit);
 
 document.getElementById("cancelRate").addEventListener('click', closeRate);
 document.getElementById("cancelReview").addEventListener('click', closeReview);
+document.getElementById("cancelEdit").addEventListener('click', closeEdit);
 
 
 
@@ -59,6 +65,43 @@ function closeRate() {
   document.getElementById("rateForm").reset();
 
 }
+function openEdit(){
+  document.getElementById("addPeople").classList.add("is-active");
+
+}
+
+function closeEdit(){
+  document.getElementById("addPeople").classList.remove("is-active");
+  document.getElementById("editForm").reset();
+}
+
+
+document.getElementById("submitEdit").addEventListener('click',addEdit);
+
+function addEdit(){
+  const sending = [];
+
+  let title = document.title;
+
+  const actors = document.getElementById("a").value;
+  const writers = document.getElementById("w").value;
+
+
+  sending.push(actors);
+  sending.push(writers);
+  console.log(sending);
+  fetch("/movies/" + title + "/edit", {
+    method: "put",
+    body: JSON.stringify(sending)
+  }).then(() => {
+    location.reload();
+  }).catch(err => {
+    alert(err);
+  })
+
+
+  closeEdit();
+}
 
 
 
@@ -70,7 +113,6 @@ function addRating() {
 
 
   const sending = [];
-  sending.push(title);
   sending.push(rating);
 
   //console.log(sending);
@@ -79,8 +121,8 @@ function addRating() {
   }
 
   else {
-    fetch("/submitRate", {
-      method: "post",
+    fetch("/movies/" + title + "/rate", {
+      method: "put",
       body: JSON.stringify(sending)
     }).then(() => {
       location.reload();
@@ -90,8 +132,8 @@ function addRating() {
 
 
     closeRate();
-
   }
+
 }
 
 
@@ -126,8 +168,8 @@ function addReview() {
   }
 
   else {
-    fetch("/submitReview", {
-      method: "post",
+    fetch("/movies/" + title + "/review", {
+      method: "put",
       body: JSON.stringify(sending)
     }).then(() => {
       location.reload();

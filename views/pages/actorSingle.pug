@@ -16,37 +16,37 @@ html(lang='en')
      
       h2  Movies Part Of:
       columns.is-3.is-centered
-      each val in moviesToShow
-        .column.is-one-third
-          .card
-            a(href='/movies/' + val.Title)
-              .card-image
-                figure.image.is-4by3
-                  img(src= val.Poster)
-            header.card-header
-              p.card-header-title
-                | #{val.Title}
-              a.card-header-icon(href='#' aria-label='more options')
-                span.icon
-                  i.fas.fa-angle-down(aria-hidden='true')
-            .card-content
-              .content
-                | #{val.Plot} 
-                br
-                br
-                br
-                |               Rating: #{val.imdbRating}
-                br
-                |               Run Time: #{val.Runtime}
-                br
-                |               Release Year: #{val.Released}
-                br
+        each val in moviesToShow
+          .column.is-one-third
+            .card
+              a(href='/movies/' + val.Title)
+                .card-image
+                  figure.image.is-4by3
+                    img(src= val.Poster)
+              header.card-header
+                p.card-header-title
+                  | #{val.Title}
+                a.card-header-icon(href='#' aria-label='more options')
+                  span.icon
+                    i.fas.fa-angle-down(aria-hidden='true')
+              .card-content
+                .content
+                  | #{val.Plot} 
+                  br
+                  br
+                  br
+                  |               Rating: #{val.imdbRating}
+                  br
+                  |               Run Time: #{val.Runtime}
+                  br
+                  |               Release Year: #{val.Released}
+                  br
       h2  Frequent Collaborators:
       p
         ul
         for coworker in coworkers
             li
-                a(href="/actors/" + coworker) #{coworker}
+                a(href="/people/" + coworker) #{coworker}
     script(src="/js/navigation.js")
     script(src="/js/reviewRate.js")
     script(src="/js/singleActor.js")

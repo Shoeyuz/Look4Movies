@@ -16,9 +16,10 @@ html(lang='en')
             | The database of any movie
           h2.subtitle
             | Deciding what movie to watch? Let us help you
-          form#searchMovie
-            input.input.is-rounded.is-medium(type='text' placeholder='Type in a movie!')
-            input#movieSearch.button(type='submit' value='Search')
+
+          br
+          if(contributing)
+            #addNewMovie.button.is-primary.is-warning Add new movie!
     // Content section for title within the body
     section
       .content.is-large.has-text-centered.pt-6.pb-6
@@ -54,4 +55,5 @@ html(lang='en')
                 br
         
       script(src="/js/navigation.js")
+      script(src="/js/movies.js")
       

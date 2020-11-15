@@ -3,7 +3,7 @@ html(lang='en')
   head
     meta(charset='utf-8')
     meta(name='viewport' content='width=device-width, initial-scale=1')
-    title Your Profile
+    title Profile
     link(rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css')
     link(rel='stylesheet' href='index.css')
   body
@@ -13,8 +13,13 @@ html(lang='en')
     section.hero.is-medium.is-dark.is-bold
       .hero-body.has-text-centered
         .container
+        if(!other)
           h1.title
             | Welcome #{user.name}!
+
+        if(other)
+          h1.title
+            | #{user.name}!
     // Main container
     nav.level
       // Left side
@@ -25,52 +30,57 @@ html(lang='en')
               img.is-rounded(src='https://bulma.io/images/placeholders/128x128.png')
       // Right side
       .level-item.has-text-centered
-        button#manageSettings.button Manage Settings
-        button#upgradeProfile.button Upgrade your profile
+      if(!other)
+        if(user.userType)
+          button#change.button Become a normal user
+        if(!user.userType)
+          button#change.button Become a contributor
+
+
     .content.has-text-centered
       h2 Actors Following
       p
         ul
         for actor in user.subscribedActors
             li
-                a(href="/actors/" + actor) #{actor}
+                a(href="/people/" + actor) #{actor}
      
         
-      h2  Users you follow:
+      h2  Users Following:
       p
         ul
         for userFol in user.subscribedUsers
             li
-                a(href="#") #{userFol}
-
-      h2 Recommended Movies For You:
-      columns.is-3.is-centered
-        for rec in recommendations
-          .column.is-one-third
-            .card
-              a(href='/movies/' + rec.Title)
-                .card-image
-                  figure.image.is-4by3
-                    img(src= rec.Poster)
-              header.card-header
-                p.card-header-title
-                  | #{rec.Title}
-                a.card-header-icon(href='#' aria-label='more options')
-                  span.icon
-                    i.fas.fa-angle-down(aria-hidden='true')
-              .card-content
-                .content
-                  | #{rec.Plot} 
-                  br
-                  br
-                  br
-                  |               Rating: #{rec.imdbRating}
-                  br
-                  |               Run Time: #{rec.Runtime}
-                  br
-                  |               Release Year: #{rec.Released}
-                  br
-              
+                a(href="/users/others/"+userFol) #{userFol}
+      if(!other)
+        h2 Recommended Movies For You:
+        columns.is-3.is-centered
+          for rec in recommendations
+            .column.is-one-third
+              .card
+                a(href='/movies/' + rec.Title)
+                  .card-image
+                    figure.image.is-4by3
+                      img(src= rec.Poster)
+                header.card-header
+                  p.card-header-title
+                    | #{rec.Title}
+                  a.card-header-icon(href='#' aria-label='more options')
+                    span.icon
+                      i.fas.fa-angle-down(aria-hidden='true')
+                .card-content
+                  .content
+                    | #{rec.Plot} 
+                    br
+                    br
+                    br
+                    |               Rating: #{rec.imdbRating}
+                    br
+                    |               Run Time: #{rec.Runtime}
+                    br
+                    |               Release Year: #{rec.Released}
+                    br
+                
     script(src="/js/navigation.js")
     script(src="/js/selfProfile.js")
 

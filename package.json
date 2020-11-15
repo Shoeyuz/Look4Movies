@@ -1,6 +1,8 @@
 {
   "dependencies": {
     "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "fs-extra": "^9.0.1",
     "pug": "^3.0.0"
   },
   "scripts": {
@@ -9,7 +11,6 @@
   "name": "look4movies",
   "version": "1.0.0",
   "main": "server.js",
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Shoeyuz/Look4Movies.git"
@@ -20,5 +21,6 @@
     "url": "https://github.com/Shoeyuz/Look4Movies/issues"
   },
   "homepage": "https://github.com/Shoeyuz/Look4Movies#readme",
-  "description": ""
+  "description": "This is the package for Michael Shlegas' Look4Movies program",
+  "devDependencies": {}
 }

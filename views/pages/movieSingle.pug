@@ -32,41 +32,41 @@ html(lang='en')
       p
         | Genres: 
         for genre in genres
-            a(href='#') #{genre}
+            a(href='http://localhost:3000/searchMovie?name=&genre=' + genre + '&yearMax=300000&yearMin=1&runTime=3050') #{genre}
             | ,
        
-      p Rating: #{singleMovie.imdbRating}
       p Look4MoviesUser Ratings: #{uRating}
+      if(loggedIn)
+        #rateMovie.button.is-primary.is-light Rate this movie
 
-      #rateMovie.button.is-primary.is-light Rate this movie
 
-
-
-      #changeValues.button.is-primary.is-warning Edit this movie
+      if(contributing)
+        #editMovie.button.is-primary.is-warning Edit this movie
 
       h2 Actors
       p
         ul
         for actor in actors
             li
-                a(href="/actors/" + actor) #{actor}
+                a(href="/people/" + actor) #{actor}
       h2  Writers 
       p
         ul
         for writer in writers
             li
-                a(href="/actors/" + writer) #{writer}
+                a(href="/people/" + writer) #{writer}
      
       h2  Director 
       p
         ul
             li
-                a(href="/actors/" + director) #{director}
+                a(href="/people/" + director) #{director}
       h2  Reviews 
-      #reviewMovie.button.is-primary.is-light Review this movie
+      if(loggedIn)
+       #reviewMovie.button.is-primary.is-light Review this movie
 
       for review in uReviews
-        a(href='#')
+        a(href='/users/others/' + review.id.name)
           .box
             article.media
               .media-left
@@ -90,86 +90,31 @@ html(lang='en')
         
       h2  Similar Movies 
       .columns.is-3.is-centered
-        .column.is-one-third
-          a(href='#')
-          .card
-            a(href='movieSingle.html')
-              .card-image
-                figure.image.is-4by3
-                  img(src='https://bulma.io/images/placeholders/1280x960.png' alt='Placeholder image')
-            header.card-header
-              a(href='movieSingle.html')
+        each item in moviesToShow
+          .column.is-one-third
+            .card
+              a(href='/movies/' + item.Title)
+                .card-image
+                  figure.image.is-4by3
+                    img(src= item.Poster)
+              header.card-header
                 p.card-header-title
-                  | Fellowship of the Ring
-              a.card-header-icon(href='#' aria-label='more options')
-                span.icon
-                  i.fas.fa-angle-down(aria-hidden='true')
-            .card-content
-              .content
-                | An epic journey about a buncha people defending this hobbit with a ring.
-                br
-                br
-                br
-                |                 Rating: 10/10
-                br
-                |                 Run Time: 3:15 hours (extended edition)
-                br
-                |                 Release Year: 2001
-                br
-        // ------------------------------
-        .column.is-one-third
-          a(href='movieSingle.html')
-          .card
-            a(href='movieSingle.html')
-              .card-image
-                figure.image.is-4by3
-                  img(src='https://bulma.io/images/placeholders/1280x960.png' alt='Placeholder image')
-            header.card-header
-              a(href='movieSingle.html')
-                p.card-header-title
-                  | The Two Towers
-              a.card-header-icon(href='#' aria-label='more options')
-                span.icon
-                  i.fas.fa-angle-down(aria-hidden='true')
-            .card-content
-              .content
-                | The hobbit got lost, but the journey ain't over.
-                | An epic battle, a long walk, and two hungry hobbits
-                br
-                br
-                br
-                |                 Rating: 12/10
-                br
-                |                 Run Time: 3:45 hours (extended edition)
-                br
-                |                 Release Year: 2002
-                br
-        .column.is-one-third
-          a(href='movieSingle.html')
-          .card
-            a(href='movieSingle.html')
-              .card-image
-                figure.image.is-4by3
-                  img(src='https://bulma.io/images/placeholders/1280x960.png' alt='Placeholder image')
-            header.card-header
-              a(href='movieSingle.html')
-                p.card-header-title
-                  | Return of the King
-              a.card-header-icon(href='#' aria-label='more options')
-                span.icon
-                  i.fas.fa-angle-down(aria-hidden='true')
-            .card-content
-              .content
-                | A crown reclaimed, a battle fought, and
-                | a hobbit threw away the ring
-                br
-                br
-                br
-                |                 Rating: 14/10
-                br
-                |                 Run Time: 4:11 hours (extended edition)
-                br
-                |                 Release Year: 2003
-                br
+                  | #{item.Title}
+                a.card-header-icon(href='#' aria-label='more options')
+                  span.icon
+                    i.fas.fa-angle-down(aria-hidden='true')
+              .card-content
+                .content
+                  | #{item.Plot} 
+                  br
+                  br
+                  br
+                  |               Rating: #{item.uRating}
+                  br
+                  |               Run Time: #{item.Runtime} min
+                  br
+                  |               Release Year: #{item.Released}
+                  br
+        
       script(src="/js/navigation.js")
       script(src="/js/reviewRate.js")

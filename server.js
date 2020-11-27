@@ -20,7 +20,7 @@ let movieDirector;
 
 
 app.set("view engine", "pug");
-
+/*
 app.use(function(req,res,next){
     console.log("-------------------------");
     console.log("Request Method: "+ req.method);
@@ -33,7 +33,7 @@ app.use(function(req,res,next){
 
     console.log();
     next();
-});
+});*/
 /*
 
 login route:
@@ -137,9 +137,9 @@ app.get("/js/selfProfile.js", (req, res, next) => {
 
 
 
-
-app.listen(3000);
-console.log("Server listening at http://localhost:3000.");
+//app.listen(3000); change back later
+app.listen(process.env.PORT || 3000);
+console.log("Server listening at http://localhost:"+(process.env.PORT || 3000));
 
 
 /*

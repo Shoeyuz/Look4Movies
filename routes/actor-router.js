@@ -4,6 +4,7 @@ let router = express.Router();
 const fs = require("fs");
 const bodyParser = require('body-parser');
 const { post } = require('./movie-router');
+const { callbackify } = require('util');
 
 
 
@@ -63,8 +64,56 @@ function sendSingleActor(req, res, next) {
             let actWith = actor.actedWith;
             let nameActor = actor.name;
 
-            res.render("pages/actorSingle", {loggedIn: req.session.loggedIn, moviesToShow: actorMovies, coworkers: actWith, name: nameActor });
-            res.status(200);
+            let following;
+
+            if(req.session.loggedIn){
+
+                fileName = path.join("jsonData/users/" + req.session.user);
+                fs.readFile(fileName, { encoding: 'utf-8' }, function (err, data) {
+                    if (err) {
+                        console.log("Something went wrong with reading the user following.");
+                        return false;
+                    }
+    
+                    else {
+    
+                        user = JSON.parse(data);
+                        user.subscribedActors.forEach(element => {
+    
+                            if (element === nameActor) {
+                                console.log("Found " + nameActor);
+                                following = true;
+    
+                            }
+                            else
+                                following = false;
+    
+                        });
+    
+                    }
+                    processFile(following);
+    
+                });
+            }
+
+            else{
+                processFile(false);
+            }
+
+
+
+
+
+            function processFile(following){
+                console.log(following);
+                res.render("pages/actorSingle", { following, loggedIn: req.session.loggedIn, moviesToShow: actorMovies, coworkers: actWith, name: nameActor });
+                next();
+            }
+
+
+           
+
+
         }
     });
 

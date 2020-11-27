@@ -1,4 +1,3 @@
-doctype html
 html(lang='en')
   head
     meta(charset='utf-8')
@@ -9,11 +8,18 @@ html(lang='en')
     include ../partials/nav.pug
     include ../partials/modal.pug
     // Main container
+
+
     nav.level
-        button#subscribeToActor.button Subscribe to this person
+      
     .content.has-text-centered
       h1.is-large #{name}
-     
+      if(loggedIn)
+        if following
+          button#unsubActor.button Unfollow person
+        if !following
+          button#subscribeToActor.button Subscribe to this person
+
       h2  Movies Part Of:
       columns.is-3.is-centered
         each val in moviesToShow

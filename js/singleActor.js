@@ -1,11 +1,36 @@
 
 
-document.getElementById("subscribeToActor").addEventListener('click',subscribeToPerson);
+document.getElementById("subscribeToActor").addEventListener('click', subscribeToPerson);
 
 
-function subscribeToPerson(){
-    alert("You have subscribed to " + document.title);
+function subscribeToPerson() {
+    const sending = [];
+    sending.push(document.title);
+    fetch("/users/subscribe", {
+        method: "post",
+        body: JSON.stringify(sending)
+    }).then(() => {
+        location.reload();
+    }).catch(err => {
+        alert(err);
+    });
+}
+document.getElementById("unsubActor").addEventListener('click', unsub);
+
+function unsub() {
+    console.log("unsubing........");
+    const sending = [];
+    sending.push(document.title);
+
+    fetch("/users/unsub", {
+        method: "post",
+        body: JSON.stringify(sending)
+    }).then(() => {
+        location.reload();
+    }).catch(err => {
+        alert(err);
+    });
+
 }
 
-//post request here with id once sessions figured out
 

@@ -18,8 +18,8 @@ let avg;
 router.get("/:title", [getMovie, sendSingleMovie]);
 router.put("/:title/rate", [express.json(), saveRating]);
 router.put("/:title/review", [express.json(), saveReview]);
-router.post("/newMovie", [express.json(), addMovie])
-router.put("/:title/edit",  [express.json(), editMovie]);
+router.post("/newMovie", [express.json(), addMovie]);
+router.put("/:title/edit", [express.json(), editMovie]);
 //Load a movie and add a movie property to the 
 // request object based on movie title request parameter
 function getMovie(req, res, next) {
@@ -43,6 +43,20 @@ function getMovie(req, res, next) {
 function sendSingleMovie(req, res, next) {
     res.format({
         "application/json": function () {
+            //get the reviews
+            let movie = req.movie;
+
+            let fileName = path.join("jsonData/reviews/" + movie.Title);
+
+            if (fs.existsSync(fileName)) {
+
+                let data = fs.readFileSync(fileName);
+                req.reviews = JSON.parse(data);
+            } else {
+                res.status(404).send("Could not find movie review.");
+            }
+            thisReviews = req.reviews;
+            req.movie.reviews = thisReviews;
             res.status(200).json(req.movie);
         },
         "text/html": function () {
@@ -69,7 +83,7 @@ function sendSingleMovie(req, res, next) {
             //gets the average rating of the movie based on user input
             userRatings = findAverage(movie.Title);
             thisSimilar = getSimilarMovies(movie);
-            res.render("pages/movieSingle", {user: req.session.user, loggedIn: req.session.loggedIn, contributing: req.session.contributor, moviesToShow: thisSimilar, uReviews: thisReviews, uRating: userRatings, singleMovie: movie, genres: movieGenres, actors: movieActors, writers: movieWriters, director: movieDirector });
+            res.render("pages/movieSingle", { user: req.session.user, loggedIn: req.session.loggedIn, contributing: req.session.contributor, moviesToShow: thisSimilar, uReviews: thisReviews, uRating: userRatings, singleMovie: movie, genres: movieGenres, actors: movieActors, writers: movieWriters, director: movieDirector });
             res.status(200);
         }
     });
@@ -102,6 +116,7 @@ function saveRating(req, res, next) {
             console.log(rating);
             data.push(rating);
 
+
             fs.writeFile(fileName, JSON.stringify(data), function (err) {
                 if (err) {
                     console.log("Error saving ratings.");
@@ -110,6 +125,8 @@ function saveRating(req, res, next) {
                     console.log("Rating saved.");
                 }
             });
+
+
             res.status(200);
             next();
 
@@ -168,6 +185,18 @@ function saveReview(req, res, next) {
                 }
             })
 
+            let revie = fs.readFileSync("jsonData/users/" + req.session.user);
+
+            revie = JSON.parse(revie);
+            revie.reviews.push(finalReview);
+            fs.writeFile("jsonData/users/" + req.session.user, JSON.stringify(revie), function (err) {
+                if (err) {
+                    console.log("Error saving review.");
+                    console.log(err);
+                } else {
+                    console.log("Review saved.");
+                }
+            })
 
             res.status(200);
             next();
@@ -399,7 +428,7 @@ function addMovie(req, res, next) {
                 } else {
                     console.log("Movie saved.");
                 }
-            })
+            });
 
             let arr = [0];
             fs.writeFileSync("jsonData/ratings/" + postData[0], JSON.stringify(arr), function (err) {
@@ -409,7 +438,7 @@ function addMovie(req, res, next) {
                 } else {
                     console.log("Movie saved.");
                 }
-            })
+            });
             arr = [];
             fs.writeFileSync("jsonData/reviews/" + postData[0], JSON.stringify(arr), function (err) {
                 if (err) {
@@ -418,7 +447,7 @@ function addMovie(req, res, next) {
                 } else {
                     console.log("Movie saved.");
                 }
-            })
+            });
             res.status(200);
             next();
         }
@@ -448,19 +477,19 @@ function editMovie(req, res, next) {
 
             let actors = (postData[0]);
             let writers = (postData[1]);
-         
-            
+
+
             tempAct = actors.split(", ");
             tempWriter = writers.split(", ");
-           
-            tempAct.forEach(element =>{
-                data.Actors += (", "+element)
+
+            tempAct.forEach(element => {
+                data.Actors += (", " + element)
             });
-            
-            tempWriter.forEach(element =>{
-                data.Writer += (", "+element)
+
+            tempWriter.forEach(element => {
+                data.Writer += (", " + element)
             });
-           
+
 
             fs.writeFile(fileName, JSON.stringify(data), function (err) {
                 if (err) {
@@ -501,7 +530,7 @@ function editMovie(req, res, next) {
                                 actor.actedWith.push(element);
 
                             });
-                           
+
 
 
                             fs.writeFile(fileName, JSON.stringify(actor), function (err) {

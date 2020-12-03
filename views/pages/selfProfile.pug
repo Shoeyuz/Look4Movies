@@ -3,9 +3,8 @@ html(lang='en')
   head
     meta(charset='utf-8')
     meta(name='viewport' content='width=device-width, initial-scale=1')
-    title Profile
+    title #{user.name}
     link(rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css')
-    link(rel='stylesheet' href='index.css')
   body
     include ../partials/nav.pug
     include ../partials/modal.pug
@@ -16,17 +15,17 @@ html(lang='en')
         if(!other)
           h1.title
             | Welcome #{user.name}!
-
-        if(other)
-          h1.title
-            | #{user.name}!
-
-        if(other)   
-          //if following
-          //  button#unsubActor.button Unfollow person
-          //if !following
-          //  button#subscribeToActor.button Subscribe to this person
-          
+        if(loggedIn)
+          if(other)
+            h1#name.title
+              | #{user.name}'s profile!
+            if following
+              button#unsubUser.button Unfollow person
+            if !following
+              button#subUser.button Subscribe to this person
+        else
+          h1#name.title
+              | #{user.name}'s profile!
     // Main container
     nav.level
       // Left side
@@ -58,7 +57,31 @@ html(lang='en')
         ul
         for userFol in user.subscribedUsers
             li
-                a(href="/users/others/"+userFol) #{userFol}
+                a(href="/users/"+userFol) #{userFol}
+
+      if(other)
+        h2  Reviews 
+        for review in uReviews
+            a(href='/users/' + review.id.name)
+              .box
+                article.media
+                  .media-left
+                    figure.image.is-64x64
+                      img(src='https://bulma.io/images/placeholders/128x128.png' alt='Image')
+                  .media-content
+                    .content
+                      p
+                        strong #{review.id.name}
+                        br
+                        strong #{review.id.rating} / 10
+
+                        br
+                        
+                        |                Summary: #{review.id.plotSummary}
+                        br
+                        
+                        |                Review: #{review.id.review}
+
       if(!other)
         h2 Recommended Movies For You:
         columns.is-3.is-centered
@@ -90,4 +113,6 @@ html(lang='en')
                 
     script(src="/js/navigation.js")
     script(src="/js/selfProfile.js")
+    script(src="/js/unfollow.js")
+    script(src="/js/followUser.js")
 

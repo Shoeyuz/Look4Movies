@@ -61,12 +61,14 @@ html(lang='en')
         ul
             li
                 a(href="/people/" + director) #{director}
+     
+
       h2  Reviews 
       if(loggedIn)
        #reviewMovie.button.is-primary.is-light Review this movie
 
       for review in uReviews
-        a(href='/users/others/' + review.id.name)
+        a(href='/users/' + review.id.name)
           .box
             article.media
               .media-left
@@ -85,9 +87,7 @@ html(lang='en')
                     br
                     
                     |                Review: #{review.id.review}
-
-
-        
+      
       h2  Similar Movies 
       .columns.is-3.is-centered
         each item in moviesToShow
@@ -118,3 +118,5 @@ html(lang='en')
         
       script(src="/js/navigation.js")
       script(src="/js/reviewRate.js")
+      if(contributing)
+        script(src="/js/editMovie.js")

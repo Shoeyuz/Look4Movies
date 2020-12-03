@@ -1,6 +1,6 @@
 
-
-
+document.addEventListener('DOMContentLoaded', function() {
+    
 document.getElementById("actorFinderSubmit").addEventListener('click', createActorSearch);
 
 function createActorSearch() {
@@ -27,7 +27,6 @@ function createUserSearch() {
     //window.location.assign("http://localhost:3000/movies");
     window.location.assign("/searchUser?name=" + nam);
     //this creates the search querry
-
     return false; //important to stop default behavior of button
 }
 
@@ -70,5 +69,7 @@ function createMovieSearch() {
     return false; //important to stop default behavior of button
 }
 
+
+ });
 
 

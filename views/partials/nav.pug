@@ -6,7 +6,7 @@ nav.navbar.is-black(role='navigation' aria-label='main navigation')
       span(aria-hidden='true')
       span(aria-hidden='true')
   #navMenu.navbar-menu
-    // navbar-start, navbar-end...
+    // navbar-start, navbar-end...s
     .navbar-start
       // navbar items
       a.navbar-item.is-active(href='/')
@@ -18,7 +18,7 @@ nav.navbar.is-black(role='navigation' aria-label='main navigation')
       a.navbar-item(href='/search')
         | Search
       if(loggedIn)
-        a.navbar-item(href='/users/selfProfile')
+        a.navbar-item(href='/profile')
           | Profile
     .navbar-end
       .navbar-item

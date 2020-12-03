@@ -205,6 +205,8 @@ function generateUsers(){
 			}],
 			subscribedActors: ["Sean Bean"],
 			subscribedUsers: ["Mathew"],
+			reviews: []
+
 		},
 	
 		"Michael": {
@@ -293,6 +295,8 @@ function generateUsers(){
 			}],
 			subscribedActors: ["Sean Bean"],
 			subscribedUsers: ["Mathew"],
+			reviews: []
+
 		},
 	
 		"Mathew": {
@@ -381,6 +385,7 @@ function generateUsers(){
 			}],
 			subscribedActors: ["Sean Bean"],
 			subscribedUsers: ["Michael"],
+			reviews: []
 	
 		}
 	

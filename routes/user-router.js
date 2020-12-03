@@ -19,30 +19,66 @@ router.get("/logout", logout);
 
 
 router.get("/upgrade", upgrade);
-router.get("/others/:name", otherProfile);
+router.get("/:name", otherProfile);
 router.post("/unsub", [express.json(), unsub]);
 router.post("/subscribe", [express.json(), subscribe]);
-router.get("/selfProfile", (req, res, next) => {
-
-    let fileName = path.join("jsonData/users", req.session.user);
-    if (fs.existsSync(fileName)) {
-        let data = fs.readFileSync(fileName);
-        req.user = JSON.parse(data);
-
-        res.render("pages/selfProfile", { loggedIn: req.session.loggedIn, other: false, user: req.user, recommendations: req.user.likedMovies });
-        //next()
-
-        res.status(200);
-    } else {
-        res.status(404).send("Could not find profile for user.");
-    }
-
-});
+router.post("/followUser", [express.json(), followUser])
+router.post("/unfollowUser", [express.json(), unfollowUser])
 
 
+function unfollowUser(req, res, next) {
 
-function unsub(req, res, next) { //does not work
-    console.log("got to here");
+    let postData = "";
+    req.on("data", chunk => postData += chunk);
+
+    req.on("end", () => {
+        postData = JSON.parse(postData);
+
+        console.log(postData);
+
+
+        fileName = path.join("jsonData/users/" + req.session.user);
+
+        //add the subscribed name to the user
+        fs.readFile(fileName, { encoding: 'utf-8' }, function (err, data) {
+            if (err) {
+                console.log("Something went wrong with reading the user when attempting to subscribe.");
+            }
+
+            else {
+                console.log("arrived");
+
+                //add the actor name to subscribed actors
+                user = JSON.parse(data);
+                let i = 0;
+                user.subscribedUsers.forEach(element => {
+
+                    if (element === postData[0]) {
+                        console.log("Found subscribed user. Removing...");
+                        user.subscribedUsers.splice(i, 1);
+                        fs.writeFile(fileName, JSON.stringify(user), function (err) {
+                            if (err) {
+                                console.log("Error saving users after removing from subscribe.");
+                                console.log(err);
+                            } else {
+                                console.log("Person saved.");
+                            }
+                        });
+
+                    }
+                    i++;
+                });
+
+                res.status(200);
+                next();
+
+            }
+        });
+
+
+    });
+}
+function followUser(req, res, next) {
     let postData = "";
     req.on("data", chunk => postData += chunk);
 
@@ -62,24 +98,65 @@ function unsub(req, res, next) { //does not work
             else {
                 //add the actor name to subscribed actors
                 user = JSON.parse(data);
-                let i =0;
-                user.subscribedActors.forEach(element => {
-                    
-                    if (element === postData[0]) {
-                        console.log("Found subscribed actor. Removing...");
-                        user.subscribedActors.slice(i,i+1);
-                        
-                    }
-                    i++;
-                });
+                user.subscribedUsers.push(postData[0]);
                 fs.writeFile(fileName, JSON.stringify(user), function (err) {
                     if (err) {
-                        console.log("Error saving users after removing from subscribe.");
+                        console.log("Error saving users after adding to subscribe.");
                         console.log(err);
                     } else {
                         //console.log("Person saved.");
                     }
                 });
+                res.status(200);
+                next();
+
+            }
+        });
+
+
+    });
+
+}
+
+function unsub(req, res, next) { //does not work
+    let postData = "";
+    req.on("data", chunk => postData += chunk);
+
+    req.on("end", () => {
+        postData = JSON.parse(postData);
+
+
+
+        fileName = path.join("jsonData/users/" + req.session.user);
+
+        //add the subscribed name to the user
+        fs.readFile(fileName, { encoding: 'utf-8' }, function (err, data) {
+            if (err) {
+                console.log("Something went wrong with reading the user when attempting to subscribe.");
+            }
+
+            else {
+                //add the actor name to subscribed actors
+                user = JSON.parse(data);
+                let i = 0;
+                user.subscribedActors.forEach(element => {
+
+                    if (element === postData[0]) {
+                        console.log("Found subscribed actor. Removing...");
+                        user.subscribedActors.splice(i, 1);
+                        fs.writeFile(fileName, JSON.stringify(user), function (err) {
+                            if (err) {
+                                console.log("Error saving users after removing from subscribe.");
+                                console.log(err);
+                            } else {
+                                console.log("Person saved.");
+                            }
+                        });
+
+                    }
+                    i++;
+                });
+
                 res.status(200);
                 next();
 
@@ -134,20 +211,70 @@ function subscribe(req, res, next) {
 
 
 function otherProfile(req, res, next) {
-    let nameUser = req.params.name;
+    res.format({
+        "application/json": function () {
+            let nameUser = req.params.name;
+            let fileName = path.join("jsonData/users", nameUser);
+            let data = fs.readFileSync(fileName);
+            req.user = JSON.parse(data);
+            req.user.password = [];
 
-    let fileName = path.join("jsonData/users", nameUser);
-    if (fs.existsSync(fileName)) {
-        let data = fs.readFileSync(fileName);
-        req.user = JSON.parse(data);
+            if (req.user.userType === true) {
+                req.user.userType = "Contributing";
+            }
+            else {
+                req.user.userType = "Non Contributing";
+            }
+            res.status(200).json(req.user);
 
-        res.render("pages/selfProfile", { loggedIn: req.session.loggedIn, other: true, user: req.user, recommendations: req.user.likedMovies });
-        //next()
-        res.status(200);
+        },
+        "text/html": function () {
+            let nameUser = req.params.name;
+            let fileName = path.join("jsonData/users", nameUser);
+            if (fs.existsSync(fileName)) {
+                //save the looked at person to data
+                let data = fs.readFileSync(fileName);
+                req.user = JSON.parse(data);
 
-    } else {
-        res.status(404).send("Could not find profile for user.");
-    }
+                //see if session user following this person
+                let following;
+                if (req.session.loggedIn) {
+
+                    fileName = path.join("jsonData/users/" + req.session.user);
+                    fs.readFile(fileName, { encoding: 'utf-8' }, function (err, data) {
+                        if (err) {
+                            console.log("Something went wrong with reading the user following.");
+                            return false;
+                        }
+                        else {
+                            use = JSON.parse(data);
+                            following = false;
+                            use.subscribedUsers.forEach(element => {
+                                if (element === nameUser) {
+                                    console.log("Found " + nameUser);
+                                    following = true;
+                                }
+                            });
+                        }
+                        processFile(following);
+                    });
+                }
+                else {
+                    processFile(false);
+                }
+                function processFile(following) {
+                    let uReviews = req.user.reviews;
+                    res.render("pages/selfProfile", { uReviews, following, loggedIn: req.session.loggedIn, other: true, user: req.user, recommendations: req.user.likedMovies });
+                    res.status(200);
+                    next();
+                }
+            } else {
+                res.status(404).send("Could not find profile for user " + req.params.name);
+            }
+        }
+
+
+    });
 }
 
 function upgrade(req, res, next) {
@@ -197,7 +324,8 @@ function signup(req, res, next) {
                 userType: false,
                 likedMovies: [],
                 subscribedActors: [],
-                subscribedUsers: []
+                subscribedUsers: [],
+                reviews: []
             }
 
             fs.writeFile(path.join("jsonData/users/" + postData[0].name), JSON.stringify(postData[0]), function (err) {
@@ -205,7 +333,7 @@ function signup(req, res, next) {
                     console.log("Error saving users.");
                     console.log(err);
                 } else {
-                    //console.log("Person saved.");
+                    alert("Welcome to the site" + postData[0].name);
                 }
             });
         }
@@ -220,7 +348,6 @@ function logout(req, res, next) {
     } else {
         res.status(200).send("You cannot log out because you aren't logged in.");
     }
-    next();
 }
 
 
@@ -234,26 +361,29 @@ function login(req, res, next) {
         //postdat[1] pass
 
         let readFolder = "jsonData/users/";
-
+        let foundLog = false;
         fs.readdirSync(readFolder).forEach(file => {
-            console.log(postData);
-            console.log(file);
             let data = fs.readFileSync(readFolder + file);
             let usrData = JSON.parse(data);
 
             if (usrData.name === postData[0] && usrData.password === postData[1]) {
-                console.log("You are logged in! ");
+                console.log("You are logged in " + usrData.name);
                 req.session.user = file;
                 req.session.loggedIn = true;
                 req.session.contributor = usrData.userType;
-
-                res.status(200);
-                next();
+                foundLog = true;
+                
             }
         });
 
-        res.status(401);
-        next();
+        if (foundLog) {
+            res.status(200);
+            next();
+        } else {
+            res.status(401);
+            next();
+        }
+
     });
 
 };

@@ -61,11 +61,44 @@ function sendSingleActor(req, res, next) {
             });
 
 
-            let actWith = actor.actedWith;
+
+            //organizes by most acted with
+            let freq = {};
+            let actWith = [];
+
+            actor.actedWith.forEach(element => {
+                if(freq[element] == null){
+                    freq[element] = 1;
+                }
+                else{
+                    freq[element]++;
+                }
+            });
+            let max = 0;
+            let actorCommon;
+            //loops 5 times to give the top 5 in dictionary
+            //NOT ALLOWING OWN NAME IN
+            for(let i = 0; i<5; i++){
+                for(var act in freq){
+                    //doesn account for duplicates if two actors at 5
+                    if(freq[act]>=max && actWith.indexOf(act) === -1 && act != actor.name){
+                        actorCommon = act;
+                        max = freq[act];
+                    }
+                }
+                max = 0;
+                actWith.push(actorCommon);
+            }
+           
+
+            
+
+
+
+
             let nameActor = actor.name;
 
             let following;
-
             if(req.session.loggedIn){
 
                 fileName = path.join("jsonData/users/" + req.session.user);
@@ -78,16 +111,15 @@ function sendSingleActor(req, res, next) {
                     else {
     
                         user = JSON.parse(data);
+                        
+                        following = false;
                         user.subscribedActors.forEach(element => {
     
                             if (element === nameActor) {
                                 console.log("Found " + nameActor);
                                 following = true;
     
-                            }
-                            else
-                                following = false;
-    
+                            }                              
                         });
     
                     }
@@ -99,21 +131,10 @@ function sendSingleActor(req, res, next) {
             else{
                 processFile(false);
             }
-
-
-
-
-
             function processFile(following){
-                console.log(following);
                 res.render("pages/actorSingle", { following, loggedIn: req.session.loggedIn, moviesToShow: actorMovies, coworkers: actWith, name: nameActor });
                 next();
             }
-
-
-           
-
-
         }
     });
 
@@ -123,7 +144,7 @@ function sendSingleActor(req, res, next) {
 //adds an actor object to the actor folder
 // does not allow adding if the actor already exists
 function addActor(req, res, next) {
-
+    console.log("adding actor");
     let postData = "";
     req.on("data", chunk => postData += chunk);
 

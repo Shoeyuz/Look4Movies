@@ -5,6 +5,7 @@ const fs = require("fs");
 const bodyParser = require('body-parser');
 const { json } = require('express');
 const session = require('express-session');
+const { title } = require('process');
 router.use(session({ secret: 'someSecret' }));
 
 
@@ -116,6 +117,32 @@ function saveRating(req, res, next) {
             console.log(rating);
             data.push(rating);
 
+            filePath = path.join("jsonData/users/" + req.session.user);
+
+            //add the liked movie name to the user
+            fs.readFile(filePath, { encoding: 'utf-8' }, function (err, data) {
+                if (err) {
+                    console.log("Something went wrong with reading the user when attempting to subscribe.");
+                }
+
+                else {
+                    //add the actor name to subscribed actors
+                    user = JSON.parse(data);
+                    if (!(user.likedMovies.includes(titleMovie)) && rating > 7) {
+                        user.likedMovies.push(titleMovie);
+                        fs.writeFile(filePath, JSON.stringify(user), function (err) {
+                            if (err) {
+                                console.log("Error saving users after adding to subscribe.");
+                                console.log(err);
+                            } else {
+                                //console.log("Person saved.");
+                            }
+                        });
+                    }
+
+
+                }
+            });
 
             fs.writeFile(fileName, JSON.stringify(data), function (err) {
                 if (err) {
@@ -156,13 +183,24 @@ function saveReview(req, res, next) {
         req.on("data", chunk => postData += chunk);
 
         req.on("end", () => {
+
+
             postData = JSON.parse(postData);
 
             let rate = Number(postData[1]);
             let plotSum = (postData[2]);
             let rev = (postData[3]);
             let id = req.session.user;
+            let readFolder = "jsonData/users/";
+            fs.readdirSync(readFolder).forEach(file => {
+                let data = fs.readFileSync(readFolder + file);
+                let usrData = JSON.parse(data);
+                if (usrData.subscribedUsers.includes(id)) {
+                    usrData.notifications.push("There is a new review by " + id);
+                    fs.writeFileSync("jsonData/users/" + usrData.name, JSON.stringify(usrData));
 
+                }
+            });
 
             let finalReview = {
 
@@ -197,6 +235,7 @@ function saveReview(req, res, next) {
                     console.log("Review saved.");
                 }
             })
+
 
             res.status(200);
             next();
@@ -295,7 +334,16 @@ function addMovie(req, res, next) {
                                     console.log("Error saving person.");
                                     console.log(err);
                                 } else {
-                                    console.log("Person saved.");
+                                    let readFolder = "jsonData/users/";
+                                    fs.readdirSync(readFolder).forEach(file => {
+                                        let data = fs.readFileSync(readFolder + file);
+                                        let usrData = JSON.parse(data);
+                                        if (usrData.subscribedActors.includes(writer)) {
+                                            usrData.notifications.push("The person " + writer + " has written a new movie!");
+                                            fs.writeFileSync("jsonData/users/" + usrData.name, JSON.stringify(usrData));
+
+                                        }
+                                    });
                                 }
                             });
 
@@ -351,7 +399,16 @@ function addMovie(req, res, next) {
                                     console.log("Error saving person.");
                                     console.log(err);
                                 } else {
-                                    console.log("Person saved.");
+                                    let readFolder = "jsonData/users/";
+                                    fs.readdirSync(readFolder).forEach(file => {
+                                        let data = fs.readFileSync(readFolder + file);
+                                        let usrData = JSON.parse(data);
+                                        if (usrData.subscribedActors.includes(actor)) {
+                                            usrData.notifications.push("The person " + actor + " has acted in a new movie!");
+                                            fs.writeFileSync("jsonData/users/" + usrData.name, JSON.stringify(usrData));
+
+                                        }
+                                    });
                                 }
                             });
                         }
@@ -404,7 +461,16 @@ function addMovie(req, res, next) {
                                     console.log("Error saving person.");
                                     console.log(err);
                                 } else {
-                                    console.log("Person saved.");
+                                    let readFolder = "jsonData/users/";
+                                    fs.readdirSync(readFolder).forEach(file => {
+                                        let data = fs.readFileSync(readFolder + file);
+                                        let usrData = JSON.parse(data);
+                                        if (usrData.subscribedActors.includes(person)) {
+                                            usrData.notifications.push("The person " + person + " has directed a new movie!");
+                                            fs.writeFileSync("jsonData/users/" + usrData.name, JSON.stringify(usrData));
+
+                                        }
+                                    });
                                 }
                             });
                         }
@@ -466,7 +532,7 @@ function editMovie(req, res, next) {
 
     if (fs.existsSync(fileName)) {
         let postData = "";
-
+        let saveData = true;
         let data = fs.readFileSync(fileName);
         data = JSON.parse(data)
 
@@ -482,129 +548,162 @@ function editMovie(req, res, next) {
             tempAct = actors.split(", ");
             tempWriter = writers.split(", ");
 
-            tempAct.forEach(element => {
-                data.Actors += (", " + element)
-            });
+            if (actors != "") {
+                tempAct.forEach(element => {
+                    data.Actors += (", " + element)
+                });
+                //for actor
+                let tempActor = actors.split(", ");
+                tempActor.forEach(actor => {
 
-            tempWriter.forEach(element => {
-                data.Writer += (", " + element)
-            });
+                    let fileName = path.join("jsonData/people/", actor);
+                    if (!fs.existsSync(fileName)) {
+                        console.log("no such person exists to add");
+                        saveData = false;
+                    }
+                    else {
+                        var info;
+                        fs.readFile(fileName, { encoding: 'utf-8' }, function (err, data) {
+                            if (err) {
+                                console.log("Something went wrong with the actors")
+                            }
+                            else {
+                                info = JSON.parse(data);
+                                info.movies.push(title);
+                                let temp = writers.split(", ");
+                                temp.forEach(element => {
+                                    if (element != "") {
+                                        info.actedWith.push(element);
+                                    }
 
+                                });
+                                temp = actors.split(", ");
+                                temp.forEach(element => {
+                                    if (element != "") {
+                                        info.actedWith.push(element);
+                                    }
 
-            fs.writeFile(fileName, JSON.stringify(data), function (err) {
-                if (err) {
-                    console.log("Error saving edit.");
-                    console.log(err);
-                } else {
-                    console.log("Edit saved.");
-                }
-            });
-
-            data.Writer.split(", ")
-            tempWriter.forEach(writer => {
-
-                let fileName = path.join("jsonData/people/", writer);
-                if (!fs.existsSync(fileName)) {
-                    console.log("no such person exists to add");
-                    res.status(404);
-                    next();
-                }
-                else {
-
-                    var actor;
-                    fs.readFile(fileName, { encoding: 'utf-8' }, function (err, data) {
-
-                        if (err) {
-                            console.log("Something went wrong with writers");
-                        }
-                        else {
-                            actor = JSON.parse(data);
-                            actor.movies.push(title);
-                            let temp = writers.split(", ");
-                            temp.forEach(element => {
-                                actor.actedWith.push(element);
-
-                            });
-                            temp = actors.split(", ");
-                            temp.forEach(element => {
-                                actor.actedWith.push(element);
-
-                            });
+                                });
 
 
+                                fs.writeFile(fileName, JSON.stringify(info), function (err) {
+                                    if (err) {
+                                        console.log("Error saving person.");
+                                        console.log(err);
+                                    } else {
 
-                            fs.writeFile(fileName, JSON.stringify(actor), function (err) {
-                                if (err) {
-                                    console.log("Error saving person.");
-                                    console.log(err);
-                                } else {
-                                    console.log("Person saved.");
-                                }
-                            });
+                                        //updating the sond 
+                                        let readFolder = "jsonData/users/";
+                                        fs.readdirSync(readFolder).forEach(file => {
+                                            let data = fs.readFileSync(readFolder + file);
+                                            let usrData = JSON.parse(data);
+                                            if (usrData.subscribedActors.includes(actor)) {
+                                                usrData.notifications.push("The person " + actor + " has starred in another movie!");
+                                                fs.writeFileSync("jsonData/users/" + usrData.name, JSON.stringify(usrData));
 
+                                            }
+                                        });
+                                    }
+                                });
+                            }
 
-                        }
+                        });
 
-
-
-                    });
-
-                }
-            });
-
-
-            //for actor
-            let tempActor = actors.split(", ");
-            tempActor.forEach(actor => {
-
-                let fileName = path.join("jsonData/people/", actor);
-                if (!fs.existsSync(fileName)) {
-                    console.log("no such person exists to add");
-                    res.status(404);
-                    next();
-                }
-                else {
-                    var info;
-                    fs.readFile(fileName, { encoding: 'utf-8' }, function (err, data) {
-                        if (err) {
-                            console.log("Something went wrong with the actors")
-                        }
-                        else {
-                            info = JSON.parse(data);
-                            info.movies.push(title);
-                            let temp = writers.split(", ");
-                            temp.forEach(element => {
-                                info.actedWith.push(element);
-
-                            });
-                            temp = actors.split(", ");
-                            temp.forEach(element => {
-                                info.actedWith.push(element);
-
-                            });
+                    }
 
 
-                            fs.writeFile(fileName, JSON.stringify(info), function (err) {
-                                if (err) {
-                                    console.log("Error saving person.");
-                                    console.log(err);
-                                } else {
-                                    console.log("Person saved.");
-                                }
-                            });
-                        }
+                });
 
-                    });
+            }
 
-                }
+            if (writers != "") {
+                tempWriter.forEach(element => {
+                    data.Writer += (", " + element)
+                });
+                data.Writer.split(", ")
+                tempWriter.forEach(writer => {
+
+                    let fileName = path.join("jsonData/people/", writer);
+                    if (!fs.existsSync(fileName)) {
+                        console.log("no such person exists to add");
+                        saveData = false;
+                    }
+                    else {
+
+                        var actor;
+                        fs.readFile(fileName, { encoding: 'utf-8' }, function (err, data) {
+
+                            if (err) {
+                                console.log("Something went wrong with writers");
+                            }
+                            else {
+                                actor = JSON.parse(data);
+                                actor.movies.push(title);
+                                let temp = writers.split(", ");
+                                temp.forEach(element => {
+                                    if (element != "") {
+                                        actor.actedWith.push(element);
+                                    }
+
+                                });
+                                temp = actors.split(", ");
+                                temp.forEach(element => {
+                                    if (element != "") {
+                                        actor.actedWith.push(element);
+                                    }
+                                });
 
 
-            });
 
-            res.status(200);
-            next();
+                                fs.writeFile(fileName, JSON.stringify(actor), function (err) {
+                                    if (err) {
+                                        console.log("Error saving person.");
+                                        console.log(err);
+                                    } else {
+                                        let readFolder = "jsonData/users/";
+                                        fs.readdirSync(readFolder).forEach(file => {
+                                            let data = fs.readFileSync(readFolder + file);
+                                            let usrData = JSON.parse(data);
+                                            if (usrData.subscribedActors.includes(writer)) {
+                                                usrData.notifications.push("The person " + writer + " has written another movie!");
+                                                fs.writeFileSync("jsonData/users/" + usrData.name, JSON.stringify(usrData));
+
+                                            }
+                                        });
+                                    }
+                                });
 
 
+                            }
+
+
+
+                        });
+
+                    }
+                });
+
+            }
+
+            if (saveData) {
+                fs.writeFile(fileName, JSON.stringify(data), function (err) {
+                    if (err) {
+                        console.log("Error saving edit.");
+                        console.log(err);
+                    } else {
+                        console.log("Edit saved.");
+                    }
+                });
+                res.status(200);
+                next();
+
+
+            }
+            else {
+                res.status(404);
+                next();
+
+            }
 
         });
 

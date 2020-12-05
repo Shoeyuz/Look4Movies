@@ -264,7 +264,7 @@ function otherProfile(req, res, next) {
                 }
                 function processFile(following) {
                     let uReviews = req.user.reviews;
-                    res.render("pages/selfProfile", { uReviews, following, loggedIn: req.session.loggedIn, other: true, user: req.user, recommendations: req.user.likedMovies });
+                    res.render("pages/selfProfile", { uReviews, following, loggedIn: req.session.loggedIn, other: true, user: req.user, recommendations: []});
                     res.status(200);
                     next();
                 }
@@ -278,9 +278,8 @@ function otherProfile(req, res, next) {
 }
 
 function upgrade(req, res, next) {
-    console.log("we here");
     req.session.contributor = !req.session.contributor;
-    let fileName = path.join("jsonData/users", req.session.user);
+    let fileName = path.join("jsonData/users/", req.session.user);
     if (fs.existsSync(fileName)) {
         let data = fs.readFileSync(fileName);
         req.user = JSON.parse(data);
@@ -289,7 +288,7 @@ function upgrade(req, res, next) {
         fs.writeFile(fileName, JSON.stringify(req.user), function (err) {
             if (err) {
                 console.log("Error saving users.");
-                console.log(err);
+                //console.log(err);
             } else {
                 //console.log("Person saved.");
             }
@@ -325,6 +324,7 @@ function signup(req, res, next) {
                 likedMovies: [],
                 subscribedActors: [],
                 subscribedUsers: [],
+                notifications: [],
                 reviews: []
             }
 
@@ -333,17 +333,27 @@ function signup(req, res, next) {
                     console.log("Error saving users.");
                     console.log(err);
                 } else {
-                    alert("Welcome to the site" + postData[0].name);
+                    console.log("Welcome to the site " + postData[0].name);
+                    console.log("Welcome to the site! Please sign in now.");
                 }
             });
         }
     });
 }
 function logout(req, res, next) {
+
     if (req.session.loggedIn) {
+        //clearing out the user notifications
+        let readFolder = "jsonData/users/";
+        let data = fs.readFileSync(readFolder + req.session.user);
+        let usrData = JSON.parse(data);
+        usrData.notifications = [];
+        fs.writeFileSync("jsonData/users/" + usrData.name,JSON.stringify(usrData));
+        
         req.session.loggedIn = false;
         req.session.user = null;
         req.session.contributor = false;
+        
         res.status(200).send("Logged out.");
     } else {
         res.status(200).send("You cannot log out because you aren't logged in.");

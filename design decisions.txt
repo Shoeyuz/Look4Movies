@@ -1,0 +1,17 @@
+1. The use of callback functions with the readFile that is ascynch.
+Control is not returned to anywhere thus the program has time to go
+through the function and use the callback function ensuring only
+one res render exists and multiple async options are possible.
+
+2. The DOM loads only the necessary java script elements that are respective to contributing users and non. For example in the movie seciton
+the edit movie js is not loaded (even in the pug) unless the user is of type contributing. This minimizes the amount of overhead to generate a page
+and keeps things limited in scope
+
+3. API does not return a password for a user to keep it safe.
+
+4. Frequent collaborators is only the top 5 of the most frequently worked together actors.
+
+5. For later; Have the user be able to add in a profile picture for their account
+
+6. Design decision. The notifications require the user to do something since the thing updates each time.
+PUSH POSTER IN FINAL PROCUCT!!!

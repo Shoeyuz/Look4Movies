@@ -122,17 +122,24 @@ window.onload = function () {
     }
   
     else {
-      fetch("/movies/" + title + "/review", {
-        method: "put",
-        body: JSON.stringify(sending)
-      }).then(() => {
-        location.reload();
-      }).catch(err => {
-        alert(err);
-      })
-  
-  
-      closeReview();
+
+      if(plotSum =="" || review == ""){
+        alert("Please do not leave reviews blank");
+      }
+      else{
+        fetch("/movies/" + title + "/review", {
+          method: "put",
+          body: JSON.stringify(sending)
+        }).then(() => {
+          location.reload();
+        }).catch(err => {
+          alert(err);
+        })
+    
+    
+        closeReview();
+      }
+      
   
     }
   }

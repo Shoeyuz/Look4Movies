@@ -81,7 +81,7 @@ function sendSingleActor(req, res, next) {
             for(let i = 0; i<5; i++){
                 for(var act in freq){
                     //doesn account for duplicates if two actors at 5
-                    if(freq[act]>=max && actWith.indexOf(act) === -1 && act != actor.name){
+                    if(freq[act]>=max && actWith.indexOf(act) === -1 && act != actor.name && act != ""){
                         actorCommon = act;
                         max = freq[act];
                     }

@@ -11,7 +11,7 @@ html(lang='en')
     include ../partials/modal.pug
 
     // END NAVIGATION
-    section.hero.is-medium.is-light.is-bold.pb-4
+    section.hero.is-fullheight-with-navbar.is-light.is-bold.pb-4
       .hero-body.has-text-centered
         .container
           h1.title
@@ -20,28 +20,14 @@ html(lang='en')
             | We can give you all their info
 
           br
+          a.button.is-dark(href = "/search") Look some up! 
+          br
           if(contributing)
+            br
             #addNewActor.button.is-primary.is-warning Add new person
 
-    .tile.is-ancestor
-      .tile.is-parent
-        article.tile.is-child.box
-          p.title Ian McKellen
-          figure.image.is-4by3
-            a(href='actorSingle.html')
-              img.is-rounded(src='https://bulma.io/images/placeholders/640x480.png')
-      .tile.is-parent
-        article.tile.is-child.box
-          p.title Vigo Mortessen
-          figure.image.is-4by3
-            a(href='actorSingle.html')
-              img.is-rounded(src='https://bulma.io/images/placeholders/640x480.png')
-      .tile.is-parent
-        article.tile.is-child.box
-          p.title Elijah Woods
-          figure.image.is-4by3
-            a(href='actorSingle.html')
-              img.is-rounded(src='https://bulma.io/images/placeholders/640x480.png')
+    
 
     script(src="/js/navigation.js")
-    script(src="/js/actors.js")
+    if(contributing)
+      script(src="/js/actors.js")

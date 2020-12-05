@@ -1,3 +1,4 @@
+
 closeEdit();
 document.getElementById("editMovie").addEventListener('click', openEdit);
 document.getElementById("closeEdit").addEventListener('click', closeEdit);
@@ -23,19 +24,25 @@ function addEdit() {
     const actors = document.getElementById("a").value;
     const writers = document.getElementById("w").value;
 
+    if (actors == "" && writers == "") {
+        alert("Please enter a name");
 
-    sending.push(actors);
-    sending.push(writers);
-    console.log(sending);
-    fetch("/movies/" + title + "/edit", {
-        method: "put",
-        body: JSON.stringify(sending)
-    }).then(() => {
-        location.reload();
-    }).catch(err => {
-        alert(err);
-    })
+    }
+    else {
+        sending.push(actors);
+        sending.push(writers);
+        console.log(sending);
+        fetch("/movies/" + title + "/edit", {
+            method: "put",
+            body: JSON.stringify(sending)
+        }).then(() => {
+            location.reload();
+        }).catch(err => {
+            alert(err);
+        })
 
 
-    closeEdit();
+        closeEdit();
+    }
+
 }

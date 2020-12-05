@@ -81,10 +81,15 @@ html(lang='en')
                         br
                         
                         |                Review: #{review.id.review}
-
+      if(!other)
+        h2 Notifications!
+        p
+          ul
+          for notif in user.notifications
+            li #{notif}
       if(!other)
         h2 Recommended Movies For You:
-        columns.is-3.is-centered
+        .columns.is-3.is-centered.is-multiline
           for rec in recommendations
             .column.is-one-third
               .card

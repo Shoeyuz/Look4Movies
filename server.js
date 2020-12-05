@@ -483,6 +483,20 @@ app.get("/js/editMovie.js", (req, res, next) => {
 	res.sendFile(__dirname + "/js/" + "editMovie.js");
 });
 
+app.get("/js/editMovie.js", (req, res, next) => {
+	res.sendFile(__dirname + "/js/" + "editMovie.js");
+});
+app.get("/pictures/Search-button.png", (req, res, next) => {
+	res.sendFile(__dirname + "/pictures/" + "Search-button.png");
+});
+app.get("/pictures/Donkey.jpg", (req, res, next) => {
+	res.sendFile(__dirname + "/pictures/" + "Donkey.jpg");
+});
+app.get("/pictures/MovieTheatre.jpg", (req, res, next) => {
+	res.sendFile(__dirname + "/pictures/" + "MovieTheatre.jpg");
+});
+
+
 
 
 

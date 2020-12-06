@@ -251,7 +251,7 @@ function createDictForRatings() {
 
 	for (let i = 0; i < movieData.length; i++) {
 		if (!(movieData[i].Title in movieRatings)) {
-			movieRatings[movieData[i].Title] = [];
+			movieRatings[movieData[i].Title] = [0];
 		}
 		//all movies start with a weighting of 5.5
 	}
